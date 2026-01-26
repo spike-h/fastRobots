@@ -3,6 +3,70 @@ body {
 	-webkit-font-smoothing: antialiased;
 }
 
+.page-wipe {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    z-index: 9999; /* Ensure it's above everything */
+    pointer-events: none; /* Allows clicking through once it moves */
+}
+
+.wipe-line {
+    flex: 1;
+    height: 100%;
+    background: #1267eb;
+    /* background: linear-gradient(to bottom, #1267eb, #0f0e1a); */
+    transform: translateY(0);
+    animation: wipeDown 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+}
+
+/* Stagger the lines for a more dynamic "wipe" look */
+.wipe-line:nth-child(2) { animation-delay: 0.1s; }
+.wipe-line:nth-child(3) { animation-delay: 0.2s; }
+.wipe-line:nth-child(4) { animation-delay: 0.3s; }
+
+@keyframes wipeDown {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+/* Initial state: Hidden and slightly shifted down */
+.fade-in-content {
+    opacity: 0;
+    transform: translateY(20px); 
+    animation: contentFadeIn 1s ease-out forwards;
+    /* Delay this until the wipe lines are halfway down (approx 0.6s) */
+    animation-delay: 0.6s; 
+}
+
+@keyframes contentFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Make the social buttons wait a bit longer */
+.mobile_links_toppad {
+    opacity: 0;
+    animation: contentFadeIn 0.8s ease-out forwards;
+    animation-delay: 1s; /* Starts after the main headline begins fading */
+}
+
+/* Make the profile picture wait the longest */
+.profile-image-wrapper {
+    opacity: 0;
+    animation: contentFadeIn 1s ease-out forwards;
+    animation-delay: 1.2s; 
+}
+
 .top_banner {
 	/* background: linear-gradient(291deg, rgb(180, 223, 255) 0%, rgb(18 103 235) 100%); */
 	/* /* background-image: url("../img/bg_new.svg"); https://app.haikei.ap* */
