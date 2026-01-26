@@ -20,14 +20,56 @@ body {
 	background: none;
 	height: auto;
 }
+
+/* Container to hold the image and the spinning ring */
+.profile-image-wrapper {
+    position: relative;
+    display: inline-block;
+    padding: 10px; /* Space for the ring */
+}
+
+/* The Spinning Ring */
+.profile-image-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    /* Create a partial border for the 'spinning' effect */
+    border: 4px solid transparent;
+    border-top-color: #239441; /* Your brand blue */
+    border-bottom-color: #8aa685;
+    
+    /* The Animation */
+    animation: spin 3s linear infinite;
+}
+
+/* Define the spin movement */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Ensure the image stays circular and inside the ring */
 .top_banner_img {
+    display: block;
+    width: 100%;
+    max-width: 450px;
+    border-radius: 50%;
+    position: relative; /* Sits above the pseudo-element ring */
+    z-index: 1;
+}
+
+/* .top_banner_img { */
 	/* display: none; */
-	width: 100%;
+	/* width: 100%;
 	max-width: 450px;
 	border-radius: 50%;
-	margin: 20px auto;
+	margin: 20px auto; */
 	/* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); */
-}
+/* } */
 
 .new_btn {
 	font-size: 18px;
