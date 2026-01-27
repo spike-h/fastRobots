@@ -113,3 +113,19 @@ a:hover {
 .text-color-hover-light:hover {
   color: #47daff;
 }
+
+/* Styling for the Lab sub-tabs within the navigation */
+.tab-navigation .nav-link {
+    transition: border-bottom 0.3s ease;
+}
+
+/* Secondary highlight for the current lab */
+.nav-link[href="lab1.html"].active {
+    color: #47daff !important;
+    border-bottom: 3px solid #47daff !important;
+}
+
+/* Ensure the main parent tab stays highlighted white to match your theme */
+.nav-link.active:not([href*="lab"]) {
+    border-bottom: 3px solid white;
+}
