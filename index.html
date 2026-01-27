@@ -1740,20 +1740,51 @@
     $(this).css('background-image', 'url(' + staticImg + ')');
 });
 
-$('.project_container').hover(
-    function() {
-        // On Hover: Switch to GIF
-        var container = $(this).find('.hover-gif-container');
-        var gifImg = container.data('gif');
-        container.css('background-image', 'url(' + gifImg + ')');
-    }, 
-    function() {
-        // On Leave: Switch back to Static
-        var container = $(this).find('.hover-gif-container');
-        var staticImg = container.data('static');
-        container.css('background-image', 'url(' + staticImg + ')');
+$(document).ready(function () {
+    const isMobile = window.matchMedia("(max-width: 991px)").matches;
+
+    if (isMobile) {
+        // MOBILE LOGIC: Load GIF when scrolled into view
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5 // Trigger when 50% of the card is visible
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const container = $(entry.target).find('.hover-gif-container');
+                const gifImg = container.data('gif');
+                const staticImg = container.data('static');
+
+                if (entry.isIntersecting) {
+                    // In view: Load and show GIF
+                    container.css('background-image', 'url(' + gifImg + ')');
+                } else {
+                    // Out of view: Revert to static to save memory
+                    container.css('background-image', 'url(' + staticImg + ')');
+                }
+            });
+        }, observerOptions);
+
+        $('.project_container').each(function() {
+            observer.observe(this);
+        });
+
+    } else {
+        // DESKTOP LOGIC: Keep your existing hover behavior
+        $('.project_container').hover(
+            function() {
+                var container = $(this).find('.hover-gif-container');
+                container.css('background-image', 'url(' + container.data('gif') + ')');
+            }, 
+            function() {
+                var container = $(this).find('.hover-gif-container');
+                container.css('background-image', 'url(' + container.data('static') + ')');
+            }
+        );
     }
-);
+});
 		</script>
 
 		<!-- Google Analytics
