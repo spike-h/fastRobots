@@ -432,92 +432,26 @@ body {
 }
 
 
-.vans {
-	background-image: url("../img/vans.jpg");
+.hover-gif-container {
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.3s ease-in-out;
+    /* width: 100%;
+    height: 300px; Match your project_container_img height */
 }
 
-.obscurity {
-	background-image: url("../img/obscurity.jpg");
+/* The static state (First frame or static image) */
+.lab1 {
+    /* Path to the first frame of your gif or a static jpg version */
+    background-image: url("../img/lab1Box_static.jpg"); 
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.3s ease-in-out;
 }
 
-.manorfarm {
-	background-image: url("../img/cattery.jpg");
-}
-
-.autotraderfilm {
-	background-image: url("../img/autotrader.jpg");
-}
-
-.levelstreaming {
-	background-image: url("../img/streaming.jpg");
-}
-
-.skyboxgenerator {
-	background-image: url("../img/diss.png");
-}
-
-.artstation {
-	background-image: url("../img/pointcloud.jpg");
-}
-
-.superhot {
-	background-image: url("../img/superhot.jpg");
-}
-
-.spacerace {
-	background-image: url("../img/r2m.jpg");
-}
-
-.plannedobsolescence {
-	background-image: url("../img/po.jpg");
-}
-
-.plantgenerator {
-	background-image: url("../img/plantgen.png");
-}
-
-.founders {
-	background-image: url("../img/founders.jpg");
-}
-
-.eociv {
-	background-image: url("../img/eoc.jpg");
-}
-
-.homebasepos {
-	background-image: url("../img/homebasepos.jpg");
-}
-
-.textadventuretool {
-	background-image: url("../img/texttoolkit2.jpg");
-}
-
-.mariokart {
-	/*background-image: url("../img/mariokart.jpg");*/
-	background-image: url("../img/anim/mariokart_anim.webp");
-}
-
-.alienzombies {
-	/*background-image: url("../img/alienzombies.jpg");*/
-	background-image: url("../img/anim/zombies_anim.webp");
-}
-
-.acmoverhaul {
-	/*background-image: url("../img/acmoverhaul.jpg");*/
-	background-image: url("../img/anim/acm_anim.webp");
-}
-
-.aliensisolationmod {
-	background-image: url("../img/aliensmod.png");
-}
-
-.csalien {
-	/*background-image: url("../img/aliencs.jpg");*/
-	background-image: url("../img/anim/aliencs_anim.webp");
-}
-
-.alienmodtools {
-	background-image: url("../img/opencage.png");
+/* The hover state (Plays the GIF) */
+.project_container:hover .lab1 {
+    background-image: url("../img/lab1Box.gif");
 }
 
 .eplanner {
