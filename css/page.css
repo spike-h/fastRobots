@@ -125,7 +125,6 @@ a:hover {
     border-bottom: 3px solid #47daff !important;
 }
 
-/* Ensure the main parent tab stays highlighted white to match your theme */
 .nav-link.active:not([href*="lab"]) {
     border-bottom: 3px solid white;
 }
