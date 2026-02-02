@@ -23,6 +23,11 @@ p {
   color: #000;
 }
 
+li {
+  font-family: "Work Sans", sans-serif;
+  color: #000;
+}
+
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
   font-family: "Work Sans", sans-serif;
   color: #000;
@@ -71,7 +76,7 @@ h6, .h6 {
 }
 
 a {
-  color: #000;
+  color: #2551c0;
   transition: all 0.25s ease;
 }
 a:hover {
@@ -127,4 +132,70 @@ a:hover {
 
 .nav-link.active:not([href*="lab"]) {
     border-bottom: 3px solid white;
+}
+
+/* Limit the display size of all lab videos */
+video {
+    max-width: 100%;
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto; /* Center the video */
+}
+
+/* Specific class for vertical/portrait videos like the temp sensor */
+.video-portrait {
+    max-width: 350px; /* Limits width on desktop */
+    max-height: 600px; /* Prevents it from being too tall */
+    width: auto;
+    height: auto;
+}
+
+/* Responsive adjustment for small phones */
+@media only screen and (max-width: 482px) {
+    .video-portrait {
+        max-width: 280px;
+    }
+}
+
+/* Container for the code block */
+pre {
+    /* background: #282c34;  */
+    padding: 5px 20px 15px 5px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(71, 218, 255, 0.1);
+    position: relative;
+    margin: 40px 0 20px 0;
+    overflow: visible; /* Allows the tab to pop out slightly */
+}
+
+/* The Language Banner/Tab */
+pre::before {
+    content: attr(data-lang); /* Pulls text from the HTML attribute */
+    position: absolute;
+    top: -15px;
+    left: 15px;
+    background: #a5a5a5; /* Your brand blue highlight */
+    color: #0f0e1a;      /* Dark text for high contrast */
+    padding: 2px 12px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 4px;
+    font-family: 'Google Sans', sans-serif;
+    letter-spacing: 1px;
+    z-index: 10;
+}
+
+pre:hover::before {
+    background: #47daff;
+    color: #0f0e1a;
+}
+
+/* Specific styling for the code within */
+pre code.hljs {
+    background: transparent !important;
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.6;
 }
