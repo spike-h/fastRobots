@@ -124,14 +124,16 @@ a:hover {
     transition: border-bottom 0.3s ease;
 }
 
-/* Secondary highlight for the current lab */
-.nav-link[href="lab1.html"].active {
+/* Secondary highlight: Only apply blue to links that contain "lab" in the URL */
+.nav-link.active[href*="lab"] {
     color: #47daff !important;
     border-bottom: 3px solid #47daff !important;
 }
 
+/* Primary highlight: Keep the white border for "Home" or "Fast Robots" */
 .nav-link.active:not([href*="lab"]) {
-    border-bottom: 3px solid white;
+    border-bottom: 3px solid white !important;
+    color: white !important;
 }
 
 /* Limit the display size of all lab videos */
@@ -160,7 +162,7 @@ video {
 /* Container for the code block */
 pre {
     /* background: #282c34;  */
-    padding: 5px 20px 15px 5px;
+    padding: 5px 20px 5px 5px;
     border-radius: 8px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(71, 218, 255, 0.1);
