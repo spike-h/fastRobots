@@ -381,16 +381,172 @@ Below is the equations and code to integrate the gyroscope data.
 
 <p>
   Finally, we can implement a complementary filter to combine the accelerometer and gyroscope data to get a more accurate estimate of the pitch and roll angles. The complementary filter uses a weighted average of the accelerometer and gyroscope data, giving more weight to the accelerometer data at low frequencies (to correct for drift) and more weight to the gyroscope data at high frequencies (to preserve fast movements). Below is the code to implement the complementary filter.
-</p>
-<pre data-lang="Arduino"><code>float alpha = 0.98; // weight for the gyroscope data
+  The alpha value determines the weight given to the gyroscope data versus the accelerometer data. A higher alpha value gives more weight to the gyroscope data, while a lower alpha value gives more weight to the accelerometer data.
+  Since the accelerometer data is noisy but doesn't drift, and the gyroscope data is smooth but drifts over time, we want to choose an alpha value that balances these two factors. In this case, we chose an alpha value of 0.06, which gives more weight to the accelerometer data to correct for drift while still preserving some of the fast movements captured by the gyroscope data.
+  The yaw angle is not included in the complementary filter since we are not using the magnetometer data to get an estimate of the yaw angle, so the yaw angle is just integrated from the gyroscope data and is subject to drift over time.
+  In this example, I shake the IMU around to show how the complementary filter is able to capture the fast movements of the IMU while also correcting for drift over time, resulting in a smoother and more accurate reading of the pitch and roll angles compared to using just the accelerometer or gyroscope data alone, which the filter does a fairly good job of.
+<pre data-lang="Arduino"><code>float alpha = 0.06; // weight for the gyroscope data
 pitch = alpha * (pitch + gyrY * dt) + (1 - alpha) * acc_pitch;
 roll = alpha * (roll + gyrX * dt) + (1 - alpha) * acc_roll;</code></pre>
+
+<img src="img/lab2/compFilter.png" alt="IMU Complementary Filter Pitch and Roll" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
 
 </div>
     </div>
   </div>
 </section>
 
+<section class="section pt-4 pb-1 bg-secondary">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">Collecting data</h4>
+        <h2 class="mb-4">Data Sampling</h2>
+			<p>
+				We can move the IMU collection code around to our main loop by including it under the write_data() function in our bluetooth sketch. This allows us to continuously collect data from the IMU and send it over bluetooth to our computer, where we can read it in real time and plot it using Jupyter notebooks. 
+        We can toggle the data collection on and off by sending a command over bluetooth, allowing us to collect data when we want to and not collect data when we don't want to. 
+        The function to collect the data is shown below, and it collects both the pitch and roll data from the IMU, applies a complementary filter to get a more accurate estimate of the angles, which can then later be sent over bluetooth in a string format that can be easily parsed in Python.
+			</p>
+
+      <pre data-lang="Arduino"><code>void collect_IMU_data() {
+while (!myICM.dataReady())
+{
+    // Wait for IMU data to be ready
+    delay(5);
+}
+agmt = myICM.getAGMT();
+acc2angle(agmt, &pitch, &roll);
+
+if (strcmp(char_arr, "DEG") == 0)
+{
+    // Convert to degrees
+    pitch = pitch * 180 / M_PI;
+    roll = roll * 180 / M_PI;
+}
+
+
+timeSinceStart = millis();
+
+// calculate angle from gyro data and append to buffer for FFT processing
+float dt = (timeSinceStart - last_timestamp) / 1000.0; // Convert ms to seconds
+
+last_timestamp = timeSinceStart;
+
+float gyrX = myICM.gyrX();
+float gyrY = myICM.gyrY();
+float gyrZ = myICM.gyrZ();
+
+gyro_pitch += gyrY * dt;
+gyro_roll += gyrX * dt;
+gyro_yaw += gyrZ * dt;
+
+float alpha = 0.06;
+c_pitch = alpha * (c_pitch + gyrY * dt) + (1 - alpha) * pitch;
+c_roll = alpha * (c_roll + gyrX * dt) + (1 - alpha) * roll;
+
+// append values for FFT processing
+if (pitchSampleCount < FFT_SIZE)
+{
+    pitchBufferA[pitchSampleCount] = (float32_t)pitch;
+    rollBufferA[pitchSampleCount] = (float32_t)roll;
+    IMUtimeBuffer[pitchSampleCount] = timeSinceStart;
+    gyroBufferX[pitchSampleCount] = gyro_roll;
+    gyroBufferY[pitchSampleCount] = gyro_pitch;
+    gyroBufferZ[pitchSampleCount] = gyro_yaw;
+    compBufferPitch[pitchSampleCount] = c_pitch;
+    compBufferRoll[pitchSampleCount] = c_roll;
+    pitchSampleCount++;
+}
+}</code></pre>
+
+<pre data-lang="Arduino"><code>void loop()
+{
+    // Listen for connections
+    BLEDevice central = BLE.central();
+
+    // If a central is connected to the peripheral
+    if (central)
+    {
+        Serial.print("Connected to: ");
+        Serial.println(central.address());
+
+        // While central is connected
+        while (central.connected())
+        {
+            // Send data
+            write_data();
+            if (IMU_ON)
+            {
+              collect_IMU_data();
+            }
+
+            // Read data
+            read_data();
+        }
+
+        Serial.println("Disconnected");
+    }
+}</code></pre>
+
+  <p>
+    We can collect the data at a rate of about 350Hz. I like to have separate arrays for storing the accelerometer and gyroscope data for debugging purposes, but we can also just have one array that stores the complementary filter output if we want to simplify our code and only care about the final angle estimates.
+    Having just one array for the complementary filter output also allows us to easily send this data over bluetooth without having to worry about sending both the accelerometer and gyroscope data separately and then having to parse it on the Python side to combine it back together, since the complementary filter output already combines the accelerometer and gyroscope data into a single estimate of the pitch and roll angles.
+    It also saves on memory since we don't have to store both the accelerometer and gyroscope data separately, which can be important on a microcontroller with limited memory.
+    Also, I use floats to store the angle data since it allows for more precision in the angle estimates, which can be important for certain applications where we need more accurate angle measurements, and because the FFT code inputs a float array, so using floats allows us to easily perform the FFT on the angle data without having to convert it from integers to floats first, which can save on processing time and simplify our code.
+    With a 32-bit float array, and if we store 3 arrays of complementary filter output (comp_pitch, comp_roll, and gyro_yaw), we can store up to about 32,000 samples in memory (384KB in Ram/(3*4)), which is about 45.68 seconds worth of data.
+  </p>
+
+  <p>
+    Also, below is an image of the range of time stamped data sent from the Artemis Nano to the computer over bluetooth. We can see that we are able to send data for about 22 seconds here which is more than 5 seconds.
+  </p>
+  <img src="img/lab2/time.png" alt="Bluetooth Data Plot" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;"/>
+
+
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section pt-4 pb-1">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">Car Stuff</h4>
+        <h2 class="mb-4">Stunt</h2>
+
+        			<section class="section pt-0 pb-1">
+				<div class="container">
+					<div class="row">
+						<div class="col-12">
+							<video controls style="width: 100%; height: auto; display: block; border-radius: 8px;" poster="img/lab1/blinkCover.png" preload="none">
+								<source src="img/lab2/FlipsAndwheelie.mov" type="video/mp4">
+								<img src="img/lab1/blinkCover.png" style="width: 100%; height: auto; display: block; border-radius: 8px;">
+							</video>
+						</div>
+					</div>
+				</div>
+			</section>
+
+              			<section class="section pt-0 pb-1">
+				<div class="container">
+					<div class="row">
+						<div class="col-12">
+							<video controls style="width: 100%; height: auto; display: block; border-radius: 8px;" poster="img/lab1/blinkCover.png" preload="none">
+								<source src="img/lab2/straightLine.mov" type="video/mp4">
+								<img src="img/lab1/blinkCover.png" style="width: 100%; height: auto; display: block; border-radius: 8px;">
+							</video>
+						</div>
+					</div>
+				</div>
+			</section>
+
+
+      </div>
+    </div>
+  </div>
+</section>
 
 
 <!-- Footer start -->
