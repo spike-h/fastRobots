@@ -293,68 +293,48 @@ Sketch of wiring diagram (with brief explanation if you want) -->
   <div class="container">
     <div class="row mb-5">
       <div class="col-lg-8 offset-lg-2">
-        <h4 class="text-color-hover-light mb-2">Prepare for trouble! And make it double!</h4>
-        <h2 class="mb-4">Two ToF Sensors</h2>
+        <h4 class="text-color-hover-light mb-2">GOGOGOGO</h4>
+        <h2 class="mb-4">Speed of Two ToF Sensors</h2>
         <p>
-          We want to have two ToF sensors reading in parallel to get a better understanding of our surroundings and to be able to detect obstacles in multiple directions.
-          However, due to the hardware limitations of the sensor, on startup the sensors will both have the same I2C address, which means that we can only communicate with one of the sensors at a time until we change the I2C address of one of the sensors using the XSHUT pin as discussed earlier.
-          The code to turn off one of the sensors using the XSHUT pin, change the I2C address of the other sensor, and then turn the first sensor back on is shown below. After doing this, we can communicate with both sensors in parallel to get readings from both sensors at the same time.
+          We measured the time it took between ready measurements in the Arduino Loop. The code to do so and the results are show below:
         </p>
-        <pre data-lang="Arduino"><code>void setup(void) {
-  // disable sensor B with xShut
-  pinMode(SHUTDOWN_PIN, OUTPUT);
-  digitalWrite(SHUTDOWN_PIN, LOW);
+        <pre data-lang="Arduino"><code>void loop(void) {
+  int startTime = millis();
+  sensorA.startRanging();
+  sensorB.startRanging();
+
+  while (!sensorA.checkForDataReady() || !sensorB.checkForDataReady()) delay(1);
+
+  int distA = sensorA.getDistance();
+  int distB = sensorB.getDistance();
+
+  sensorA.clearInterrupt();
+  sensorB.clearInterrupt();
   
-  Wire.begin();
-  Serial.begin(115200);
-  while(!Serial); 
+  sensorA.stopRanging();
+  sensorB.stopRanging();
 
+  int endTime = millis();
 
-  Serial.println("Initializing Sensor A...");
-
-  // try to find sensor A
-  if (sensorA.begin() == 0) {
-    Serial.println("Sensor A found at 0x52. Moving to 0x54...");
-    sensorA.setI2CAddress(0x54); 
-    delay(10);
-  } else {
-    // the sensor may fail to be found at 0x52
-    // When the board gets reset the sensor's address doesn't necessarily so it might still be at 0x54
-    // can unplug and replug in the sensor to reset the address but easier to just read from 0x54 and check if its there
-    sensorA.setI2CAddress(0x54); 
-    if (sensorA.begin() == 0) {
-      Serial.println("Sensor A found already at 0x54.");
-    } else {
-      Serial.println("Sensor A NOT FOUND at 0x52 or 0x54. Check wires!");
-      while(1);
-    }
-  }
-
-  // turn on sensor B
-  Serial.println("Waking up Sensor B...");
-  digitalWrite(SHUTDOWN_PIN, HIGH);
-  delay(20); 
-
-  if (sensorB.begin() != 0) {
-    Serial.println("Sensor B (0x52) failed to initialize.");
-    while(1);
-  }
-
-  Serial.println("Both Sensors Online!");
+  Serial.print("A: "); Serial.print(distA);
+  Serial.print("mm \t B (xShut): "); Serial.print(distB);
+  Serial.print("mm \t");
+  Serial.print("Delay: "); Serial.print(endTime-startTime);
+  Serial.println("ms");
 }</code></pre>
-<p>
-  A major problem I had when trying to setup two sensors was that it would work initially, but then when I changed the code (that is unrelated to the setup), the sensors would fail to initialize.
-  The only solution was to unplug the sensors and plug them back in which fixed the problem. However, I realized that the problem was that when the board gets reset, the sensors don't necessarily reset their I2C addresses, so if they are already at the new I2C address, then the code will fail to find them at the default I2C address so we can never set the sensor to its new address.
-  The solution to this problem is to just try to find the sensor at the new I2C address if we fail to find it at the default I2C address, which is what the code above does. This way, we can avoid having to unplug and replug in the sensors every time we reset the board or change the code.
-</p>
-<p>
-  Below is a video of both sensors working in parallel. Sensor B (xShut) is the one on the left with the xShutdown wire while sensor A is on the right. (Note: ignore the music blasting in this and all subsequent videos....I didn't realize it got captured)
-</p>
 
-							<video controls style="width: 100%; height: auto; display: block; border-radius: 8px;" poster="img/lab3/twoTofs.png" preload="none">
-								<source src="img/lab3/twoTofs.mov" type="video/mp4">
-								<img src="img/lab3/twoTofs.png" style="width: 100%; height: auto; display: block; border-radius: 8px;">
-							</video>
+<img src="img/lab3/outOfDistanceSpeed.png" alt="ToF Sensor Speed" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;"></img>
+<img src="img/lab3/inDistanceSpeed.png" alt="ToF Sensor Speed Zoomed" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;"> </img>
+<p>The first image shows the time it takes for both sensors to return a measurement when they are out of range (i.e., no object is in front of them). The second image shows the time it takes for both sensors to return a measurement when they are in range (i.e., an object is in front of them).
+  While we should only need 20ms for our timing budget, we also have ot wait for the sensor to get the data output, and clear the interrupt, which adds to the time it takes for the sensors to return a measurement. We can see that when the sensors are out of range, it takes about 37ms for the sensors to return a measurement, while when the sensors are in range, it takes about 57ms for the sensors to return a measurement.
+  This coincides with the datasheet's figure as shown below that shows that we have to wait for this inter. measurement that has a typical value of 20ms. Additionally, the time may change based on whether it sees an object or not since
+  if it doesn't see any object, the sensor could bail out early and return its maximum range of ~1.3m. However, if it sees an object, it has to wait for the full timing budget to get a more accurate reading of the distance, which is why we see a longer time when the sensors are in range as compared to when they are out of range.
+  This also means the limiting factor for the speed of our sensors is the inter. measurement period which may be able to decrease as its a "parameter set by the user" according to the datasheet.
+</p>
+<img src="img/lab3/timing.png" alt="ToF Sensor Timing from Datasheet" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+<p>
+
+</p>
 
 
       </div>
