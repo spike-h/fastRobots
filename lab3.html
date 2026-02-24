@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+
+<!--
+THEME MODIFIED FROM THEMEFISHER HTML TEMPLATE
+ // WEBSITE: https://themefisher.com
+-->
+
+<html lang="zxx">
+
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no"
+		/>
+		<meta name="author" content="Spike" />
+		<!-- <link rel="icon" href="icon.gif" type="image/gif" /> -->
+		<link rel="icon" href="img/me_circle.png" />
+		<title>Fast Robots Lab 3</title>
+		<meta name="keywords" content="lab3, fastRobots, arduino, artemis nano, Time of Flight Sensor" />
+
+  <!-- ** Plugins Needed for the Project ** -->
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <!-- Main Stylesheet -->
+   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css"> -->
+	<link rel="stylesheet" href="css/atelier-seaside-light.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+	<script>hljs.highlightAll();</script>
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/page.css" rel="stylesheet">
+
+</head>
+
+<body>
+  
+<!-- Header Start --> 
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark tab-navigation" style="z-index: 1020">
+    <div class="container-xxl">
+<ul class="nav nav-tabs w-100" style="border-bottom: none">
+    <li class="nav-item flex-fill text-center">
+        <a href="index.html" class="nav-link tab-link">Home</a>
+    </li>
+
+    <li class="nav-item flex-fill text-center mx-1">
+        <a href="#" class="nav-link tab-link active" style="border-bottom: 3px solid white;">Fast Robots</a>
+    </li>
+    
+    <li class="nav-item flex-fill text-center">
+        <a href="lab1.html" class="nav-link tab-link" style="font-size: 0.9em;">Lab 1</a>
+    </li>
+    <li class="nav-item flex-fill text-center">
+        <a href="lab2.html" class="nav-link tab-link " style="font-size: 0.9em;">Lab 2</a>
+    </li>
+    <li class="nav-item flex-fill text-center">
+        <a href="lab3.html" class="nav-link tab-link active" style="font-size: 0.9em;">Lab 3</a>
+    </li>
+</ul>
+    </div>
+</nav>
+
+
+
+<!-- Header Close --> 
+
+<!-- Hero Section -->
+<section class="section pt-5 pb-0">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4"> 
+        <div class="mb-4">
+		  <h2 class="mb-5">Fast Robots: Lab 3</h2>
+		  <img src="img/lab3/lab3Cover.gif" alt="Fast Robots Lab 3" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+          <p><span class="text-color-hover-light">Arduino IDE</span> • <span class="text-color-hover-light">Bluetooth</span> • <span class="text-color-hover-light">Jupyter Notebooks</span>
+          • <span class="text-color-hover-light">Time of Flight Sensors</span></p> 
+		</div>
+	</div>
+      <div class="col-lg-8">
+        <div class="mb-4">
+          <h3 class="text-color mb-4">Introduction to Using Time of Flight Sensor</h3>
+          <p class="lead">This lab is to serve as an introduction to using the Time of Flight (ToF) sensor on the Artemis Nano microcontroller. 
+            We look at using multiple ToF sensors and determining their accuracy, as well as how different conditions (color and texture of objects) affect their readings.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Hero Video -->
+<!-- <section class="section pt-0 pb-5">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<video controls autoplay muted loop style="width: 100%; height: auto; display: block; border-radius: 8px;" poster="images/portfolio/HRC/hrc2_cover_wide.png">
+					<source src="images/portfolio/HRC/HRC_Codesign.mp4" type="video/mp4">
+					<img src="images/portfolio/HRC/hrc2_cover_wide.png" alt="Human-Robot Co-design" style="width: 100%; height: auto; display: block; border-radius: 8px;">
+				</video>
+			</div>
+		</div>
+	</div>
+</section> -->
+
+<!-- prelab -->
+
+<!-- Note the I2C sensor address
+Briefly discuss the approach to using 2 ToF sensor -->
+
+<section class="section pt-5 pb-1 bg-secondary">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">Where Are The Sensors?</h4>
+        <h2 class="mb-4">I2C Address of ToF Sensor</h2>
+        <p>
+          When reading from the ToF sensor via I2C, the ToF sensor has a default I2C address of 0x52 according to page 4 of its <a href="https://cdn.sparkfun.com/assets/8/9/9/a/6/VL53L0X_DS.pdf">datasheet</a>. 
+        </p>
+        <p>
+          However, if you have multiple ToF sensors connected to the same I2C bus, you will need to change the I2C address of one of the sensors to isolate their readings from each other.
+          To change the I2C address of the ToF sensor, you can use the XSHUT pin on the sensor to turn it off and then set the new I2C address. 
+          The XSHUT pin is active low, so you can connect it to a GPIO pin on your microcontroller and pull it low to turn off one of the sensors. From here, you can use the default I2C address to communicate with the sensor that is still on and change its I2C address to a new value. 
+          Then, you can release the XSHUT pin to turn the other sensor back on, and it will still have the default I2C address, allowing you to communicate with both sensors separately using their respective I2C addresses.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Briefly discuss placement of sensors on robot and scenarios where you will miss obstacles
+Sketch of wiring diagram (with brief explanation if you want) -->
+
+<section class="section pt-5 pb-1">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">Thinking Ahead</h4>
+        <h2 class="mb-4">Placement and Wiring of ToF Sensors</h2>
+        <p>
+          Thinking ahead for future labs and applications, we have to consider where to place the ToF sensors on our robot. For our case, we place the sensors on a side and the front of the robot.
+          Below is a diagram of the sensors on a robot, with obstacles that can be detected highlighted in green and obstacles that cannot be detected highlighted in red. 
+        </p>
+        <img src="img/lab3/tofOnCarWithObstacles.png" alt="Sensor Placement Diagram" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+        <p>
+        We can see that the robot can detect obstacles in front of it and to its side, but it cannot detect obstacles that are behind it or on the other side of the robot. This means that in a maze or narrow environment, it
+          cannot detect obstacles on the other side of the robot, which can lead to collisions if the robot is not careful when turning or navigating around corners, but it can still avoid headon collisions. Also in a maze, it can employ
+          a wall following strategy by just turning towards the side with the sensor and following the wall on that side to solve it. Below again is a wiring diagram of our current setup with our sensors:
+        </p>
+        <img src="img/lab3/wiringDiagram.png" alt="Wiring Diagram" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Picture of your ToF sensor connected to your QWIIC breakout board -->
+
+<section class="section pt-5 pb-1 bg-secondary">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">Janky Setup</h4>
+        <h2 class="mb-4">Picture of ToF Sensor Connected to QWIIC Breakout Board</h2>
+        <img src="img/lab3/TOFWired.webp" alt="ToF Sensor Connected to QWIIC Breakout Board" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+        <p>
+          Above, we can see an image of our ToF sensor connected to the QWIIC breakout board, which is connected to our Artemis Nano board and our battery.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Screenshot of Artemis scanning for I2C device (and discussion on I2C address) -->
+
+<section class="section pt-5 pb-1">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">Where Are We Looking?</h4>
+        <h2 class="mb-4">I2C Addresses</h2>
+        <img src="img/lab3/i2cwire.png" alt="I2C Scanner Output" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+        <p>
+          Above is an image of our Artemis Nano scanning for I2C devices using the Apollo3 library's I2C scanner code ("Example05_Wire_I2C.ino"). We can see that it detects a device at the address of 0x29, which is slightly strange 
+          since the default I2C address of the ToF sensor is supposed to be 0x52 according to the 
+          <a href="https://cdn.sparkfun.com/assets/8/9/9/a/6/VL53L0X_DS.pdf">datasheet</a>, 
+          but this is because the I2C scanner code is reporting the 7-bit address, since the last bit of the I2C address is used to indicate whether the operation is a read or a write as shown in page 19 of the datasheet.
+          A screenshot of the datasheet is shown below for reference. 
+        </p>
+        <img src="img/lab3/pg19datasheet.png" alt="I2C Address in Datasheet" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Discussion and pictures of sensor data with chosen mode -->
+
+<section class="section pt-5 pb-1 bg-secondary">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">How Far Do We Really Need?</h4>
+        <h2 class="mb-4">Sensor Range Modes</h2>
+        <p>
+          This ToF has three different ranging modes that trade off between accuracy over a certain range, maximum range, and speed. 
+          The three modes are short, medium, and long range mode. Short range mode has a range of about 1.3 meters, medium range mode has a range of about 3 meters, and long range mode has a range of about 4 meters according to the 
+          <a href="https://cdn.sparkfun.com/assets/8/9/9/a/6/VL53L0X_DS.pdf">datasheet</a>.
+            The short range mode is the most immune to ambient light and has the lowest timing budget of 20ms, as compared to long and mediums range modes which have timing budgets of 33ms, but it has the shortest range. The long range mode has the longest range but is the most susceptible to ambient light and has the longest timing budget, while the medium range mode is a middle ground between the two.
+            For our application, we chose to use the short range mode since we are mostly interested in detecting obstacles that are close to the robot, and we want to have a fast response time to avoid collisions, so the short range mode's lower timing budget corresponds to a high sample rate which is beneficial for our application.
+            However, if we need to focus more on mapping a large environment or detecting obstacles that are farther away, we could consider using the medium or long range modes, but we would have to be careful about the increased susceptibility to ambient light and the longer timing budgets, which could lead to slower response times and less accurate readings in stronger lighting conditions.
+            The way to switch our sensor to short range mode is to run: <code> sensor.setDistanceModeShort() </code>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 ToF sensors and the IMU: Discussion and screenshot/video of sensors working in parallel -->
+
+<section class="section pt-5 pb-1">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">Prepare for trouble! And make it double!</h4>
+        <h2 class="mb-4">Two ToF Sensors</h2>
+        <p>
+          We want to have two ToF sensors reading in parallel to get a better understanding of our surroundings and to be able to detect obstacles in multiple directions.
+          However, due to the hardware limitations of the sensor, on startup the sensors will both have the same I2C address, which means that we can only communicate with one of the sensors at a time until we change the I2C address of one of the sensors using the XSHUT pin as discussed earlier.
+          The code to turn off one of the sensors using the XSHUT pin, change the I2C address of the other sensor, and then turn the first sensor back on is shown below. After doing this, we can communicate with both sensors in parallel to get readings from both sensors at the same time.
+        </p>
+        <pre data-lang="Arduino"><code>void setup(void) {
+  // disable sensor B with xShut
+  pinMode(SHUTDOWN_PIN, OUTPUT);
+  digitalWrite(SHUTDOWN_PIN, LOW);
+  
+  Wire.begin();
+  Serial.begin(115200);
+  while(!Serial); 
+
+
+  Serial.println("Initializing Sensor A...");
+
+  // try to find sensor A
+  if (sensorA.begin() == 0) {
+    Serial.println("Sensor A found at 0x52. Moving to 0x54...");
+    sensorA.setI2CAddress(0x54); 
+    delay(10);
+  } else {
+    // the sensor may fail to be found at 0x52
+    // When the board gets reset the sensor's address doesn't necessarily so it might still be at 0x54
+    // can unplug and replug in the sensor to reset the address but easier to just read from 0x54 and check if its there
+    sensorA.setI2CAddress(0x54); 
+    if (sensorA.begin() == 0) {
+      Serial.println("Sensor A found already at 0x54.");
+    } else {
+      Serial.println("Sensor A NOT FOUND at 0x52 or 0x54. Check wires!");
+      while(1);
+    }
+  }
+
+  // turn on sensor B
+  Serial.println("Waking up Sensor B...");
+  digitalWrite(SHUTDOWN_PIN, HIGH);
+  delay(20); 
+
+  if (sensorB.begin() != 0) {
+    Serial.println("Sensor B (0x52) failed to initialize.");
+    while(1);
+  }
+
+  Serial.println("Both Sensors Online!");
+}</code></pre>
+<p>
+  A major problem I had when trying to setup two sensors was that it would work initially, but then when I changed the code (that is unrelated to the setup), the sensors would fail to initialize.
+  The only solution was to unplug the sensors and plug them back in which fixed the problem. However, I realized that the problem was that when the board gets reset, the sensors don't necessarily reset their I2C addresses, so if they are already at the new I2C address, then the code will fail to find them at the default I2C address so we can never set the sensor to its new address.
+  The solution to this problem is to just try to find the sensor at the new I2C address if we fail to find it at the default I2C address, which is what the code above does. This way, we can avoid having to unplug and replug in the sensors every time we reset the board or change the code.
+</p>
+<p>
+  Below is a video of both sensors working in parallel. Sensor B (xShut) is the one on the left with the xShutdown wire while sensor A is on the right. (Note: ignore the music blasting in this and all subsequent videos....I didn't realize it got captured)
+</p>
+
+							<video controls style="width: 100%; height: auto; display: block; border-radius: 8px;" poster="img/lab3/twoTofs.png" preload="none">
+								<source src="img/lab3/twoTofs.mov" type="video/mp4">
+								<img src="img/lab3/twoTofs.png" style="width: 100%; height: auto; display: block; border-radius: 8px;">
+							</video>
+
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Tof sensor speed: Discussion on speed and limiting factor; include code snippet of how you do this -->
+
+<section class="section pt-5 pb-1">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">Prepare for trouble! And make it double!</h4>
+        <h2 class="mb-4">Two ToF Sensors</h2>
+        <p>
+          We want to have two ToF sensors reading in parallel to get a better understanding of our surroundings and to be able to detect obstacles in multiple directions.
+          However, due to the hardware limitations of the sensor, on startup the sensors will both have the same I2C address, which means that we can only communicate with one of the sensors at a time until we change the I2C address of one of the sensors using the XSHUT pin as discussed earlier.
+          The code to turn off one of the sensors using the XSHUT pin, change the I2C address of the other sensor, and then turn the first sensor back on is shown below. After doing this, we can communicate with both sensors in parallel to get readings from both sensors at the same time.
+        </p>
+        <pre data-lang="Arduino"><code>void setup(void) {
+  // disable sensor B with xShut
+  pinMode(SHUTDOWN_PIN, OUTPUT);
+  digitalWrite(SHUTDOWN_PIN, LOW);
+  
+  Wire.begin();
+  Serial.begin(115200);
+  while(!Serial); 
+
+
+  Serial.println("Initializing Sensor A...");
+
+  // try to find sensor A
+  if (sensorA.begin() == 0) {
+    Serial.println("Sensor A found at 0x52. Moving to 0x54...");
+    sensorA.setI2CAddress(0x54); 
+    delay(10);
+  } else {
+    // the sensor may fail to be found at 0x52
+    // When the board gets reset the sensor's address doesn't necessarily so it might still be at 0x54
+    // can unplug and replug in the sensor to reset the address but easier to just read from 0x54 and check if its there
+    sensorA.setI2CAddress(0x54); 
+    if (sensorA.begin() == 0) {
+      Serial.println("Sensor A found already at 0x54.");
+    } else {
+      Serial.println("Sensor A NOT FOUND at 0x52 or 0x54. Check wires!");
+      while(1);
+    }
+  }
+
+  // turn on sensor B
+  Serial.println("Waking up Sensor B...");
+  digitalWrite(SHUTDOWN_PIN, HIGH);
+  delay(20); 
+
+  if (sensorB.begin() != 0) {
+    Serial.println("Sensor B (0x52) failed to initialize.");
+    while(1);
+  }
+
+  Serial.println("Both Sensors Online!");
+}</code></pre>
+<p>
+  A major problem I had when trying to setup two sensors was that it would work initially, but then when I changed the code (that is unrelated to the setup), the sensors would fail to initialize.
+  The only solution was to unplug the sensors and plug them back in which fixed the problem. However, I realized that the problem was that when the board gets reset, the sensors don't necessarily reset their I2C addresses, so if they are already at the new I2C address, then the code will fail to find them at the default I2C address so we can never set the sensor to its new address.
+  The solution to this problem is to just try to find the sensor at the new I2C address if we fail to find it at the default I2C address, which is what the code above does. This way, we can avoid having to unplug and replug in the sensors every time we reset the board or change the code.
+</p>
+<p>
+  Below is a video of both sensors working in parallel. Sensor B (xShut) is the one on the left with the xShutdown wire while sensor A is on the right. (Note: ignore the music blasting in this and all subsequent videos....I didn't realize it got captured)
+</p>
+
+							<video controls style="width: 100%; height: auto; display: block; border-radius: 8px;" poster="img/lab3/twoTofs.png" preload="none">
+								<source src="img/lab3/twoTofs.mov" type="video/mp4">
+								<img src="img/lab3/twoTofs.png" style="width: 100%; height: auto; display: block; border-radius: 8px;">
+							</video>
+
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Time v Distance: Include graph of data sent over bluetooth (2 sensors)
+Time v Angle: Include graph of data sent over bluetooth
+(5000) Discussion on infrared transmission based sensors
+(5000) Sensitivity of sensors to colors and textures -->
+
+
+
+<!-- accelerometer pitch and roll -->
+<section class="section pt-5 pb-1 bg-secondary">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">Plugging it in</h4>
+        <h2 class="mb-4">Accelerometer</h2>
+        <p>
+			To transform our gravity vector from the accelerometer into pitch and roll angles, we can use the following equations from lecture:
+		</p>
+<pre data-lang="Arduino"><code>void acc2angle(ICM_20948_AGMT_t agmt, double* pitch, double* roll)
+{
+  // Converts the accelerometer data from IMU (agmt) into pitch, roll, and yaw
+  // agmt is the input variable
+  // pitch and roll are output variables
+  *pitch = atan2(agmt.acc.axes.x, agmt.acc.axes.z);
+  *roll = atan2(agmt.acc.axes.y, agmt.acc.axes.z);
+}
+</code></pre>
+
+<p>
+  And then we can use the following code to print the pitch and roll values to the serial monitor in degrees. We can see that as we tilt the IMU around, we get reasonable values for the pitch and roll angles based on how we are tilting the IMU.
+</p>
+
+		<pre data-lang="Arduino"><code>acc2angle(myICM.agmt, &pitch, &roll);
+SERIAL_PORT.print("Pitch: ");
+printFormattedFloat(pitch *180/M_PI, 5, 2);
+SERIAL_PORT.print(" Roll: ");
+printFormattedFloat(roll *180/M_PI, 5, 2);
+SERIAL_PORT.println("");
+delay(30);</code></pre>
+
+			<section class="section pt-0 pb-1">
+				<div class="container">
+					<div class="row">
+						<div class="col-12">
+							<video controls style="width: 100%; height: auto; display: block; border-radius: 8px;" poster="img/lab1/blinkCover.png" preload="none">
+								<source src="img/lab2/imu_90s.MOV" type="video/mp4">
+								<img src="img/lab1/blinkCover.png" style="width: 100%; height: auto; display: block; border-radius: 8px;">
+							</video>
+						</div>
+					</div>
+				</div>
+			</section>
+
+<p>
+  From the video, we can see that as we tilt the IMU from 90 to -90 degrees in pitch and roll, we get reasonable values for the pitch and roll angles based on how we are tilting the IMU. From this,
+  I've concluded that we don't need to do any two point calibration for the accelerometer since at 90 degrees, we get values close to 90 degrees, and at -90 degrees, we get values close to -90 degrees.
+</p>
+
+<p> 
+  			Before proceeding, we port over the acc2angle function, blue LED setup, and IMU setup to our bluetooth sketch. We can then use the bluetooth connection to 
+      read the pitch and roll data from the IMU and send it to our computer. We can then use Jupyter notebooks to read the serial data and plot it in real time.
+</p>
+
+<pre data-lang="Arduino"><code>case GET_PITCH_AND_ROLL:
+{
+    // Get pitch and roll from the IMU and send back as a string
+    // INPUTS:  "Rad" or   "Deg"
+
+    char char_arr[MAX_MSG_SIZE];
+    success = robot_cmd.get_next_value(char_arr);
+    if (!success)
+        return;
+
+    double pitch, roll;
+    int timeSinceStart;
+    ICM_20948_AGMT_t agmt;
+
+    for (int i = 0; i < FFT_SIZE; i++)
+    {
+      while (!myICM.dataReady()) {
+        // Wait for IMU data to be ready
+        delay(5);
+      }
+      agmt = myICM.getAGMT();
+      acc2angle(agmt, &pitch, &roll);
+
+      if (strcmp(char_arr, "DEG") == 0) {
+          // Convert to degrees
+          pitch = pitch * 180 / M_PI;
+          roll = roll * 180 / M_PI;
+      }
+
+      timeSinceStart = millis();
+
+      // append values for FFT processing
+      if (pitchSampleCount < FFT_SIZE) {
+        pitchBufferA[pitchSampleCount] = (float32_t)pitch;
+        rollBufferA[pitchSampleCount] = (float32_t)roll;
+        IMUtimeBuffer[pitchSampleCount] = timeSinceStart;
+        pitchSampleCount++;
+      }
+    }
+
+    for (int i=0; i < FFT_SIZE; i++)
+    {
+    tx_estring_value.clear();
+      tx_estring_value.append("P:");
+      tx_estring_value.append(pitchBufferA[i]);
+      tx_estring_value.append("R:");
+      tx_estring_value.append(rollBufferA[i]);
+      tx_estring_value.append("T:");
+      tx_estring_value.append(IMUtimeBuffer[i]);
+      tx_characteristic_string.writeValue(tx_estring_value.c_str());
+    }
+    
+    break;
+}</code></pre>
+
+<p>
+  Code to plot the pitch and roll data in a Jupyter notebook:
+</p>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- accelerometer fourier transform -->
+<section class="section pt-5 pb-1 bg-secondary">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">AGAIN?!?!?!</h4>
+        <h2 class="mb-4">Fourier Transform of IMU Data</h2>
+        <p>
+      We can also perform a Fourier transform on the data to analyze the frequency content of the IMU data. This can be useful for identifying patterns or 
+      vibrations in the data that may not be visible in the time domain. Below is the code used to perform the Fourier transform on the pitch data from the IMU.
+      This code was adapted from the PDM microphone FFT code provided in Lab 1. "Processing buffer" is the list of angle values and this outputs the magnitudes of the frequency components in the "magnitudes" array.
+		</p>
+
+<pre data-lang="Arduino"><code>arm_rfft_fast_instance_f32 S;
+    arm_rfft_fast_init_f32(&S, FFT_SIZE);
+    arm_rfft_fast_f32(&S, processingBuffer, fft_output, 0);
+    arm_cmplx_mag_f32(fft_output, magnitudes, FFT_SIZE / 2);
+</code></pre>
+
+<p>
+  Below are plots of of the Fourier transform of the pitch data when the IMU is when it is being shaken due to nearby car movement, when it is stationary, and being shaken by the table. 
+  When the IMU is being shaken by a car's movement, we can see that the fourier transform mostly consists of a DC offset and the other major components decay mostly by about 13Hz, which is what we will use for our cutoff frequency in a lowpass filter.
+
+</p>
+<img src="img/lab2/pitchRollCar.png" alt="IMU FFT Stationary Zoomed" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+<img src="img/lab2/pitchRollCar_fft.png" alt="IMU FFT Stationary" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+
+<p>
+  When the IMU is stationary, we can see that the fourier transform consists of a large DC offset and the other frequency components are mostly very small, which is what we would expect for stationary data with some noise.
+  However, we want to eliminate some of this noise to get a more accurate reading of the pitch and roll angles, so we will implement a lowpass filter with a cutoff frequency of around 13Hz to filter out the high frequency noise in the data.
+</p>
+<img src="img/lab2/pitchRollFlat.png" alt="IMU FFT Stationary Zoomed" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+<img src="img/lab2/pitchRollFlat_fft.png" alt="IMU FFT Stationary" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+
+<p>
+  We can implement a lowpass filter by applying the equations from lecture by treating our data as an RC circuit as shown below:
+</p>
+
+<pre data-lang="Arduino"><code>float cutoff_freq = 13.0; // desired cutoff frequency in Hz
+float sample_freq = pitchSampleCount/((timeStampArray[pitchSampleCount-1] - timeStampArray[0])/1000); // sampling frequency in Hz (number of IMU samples collected per second)
+float dt = 1.0 / sample_freq;
+float RC = 1.0 / (2 * M_PI * cutoff_freq);
+float alpha = dt / (RC + dt);</code></pre>
+
+<p>
+  Applying this to our stationary data, we can see that the lowpass filter significantly reduces the noise in the data, allowing us to get a more accurate reading of the pitch and roll angles.
+  We can also see that the lowpass filter preserves the general shape of the data, which is what we would expect since the cutoff frequency is high enough to preserve the main frequency components of the data while filtering out the high frequency noise.
+</p>
+
+<img src="img/lab2/pitchRollFlat_lowpass.png" alt="IMU FFT Stationary Zoomed" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+<img src="img/lab2/pitchRollFlat_lowpass_fft.png" alt="IMU FFT Stationary" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+
+<p>
+  Zooming in on the FFT data without the DC component, gives us a better view of the frequency components in the data. We can see that the lowpass filter significantly reduces the magnitude of the frequency components above the cutoff frequency, greatly reducing the noise.
+</p>
+<img src="img/lab2/pitchRollFlat_lowpass_fft_zoomedIn.png" alt="IMU FFT Stationary Zoomed" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+
+<p>
+  We also tested the robustness of the IMU and lowpass filter by shaking the table that the IMU is on. We can see that the lowpass filter significantly reduces the noise in the data, allowing us to still get a reasonable reading of the pitch and roll angles even when the IMU is being shaken by the table.
+  The low pass filter reduced the magnitude of the shake as shown below:
+</p>
+
+<img src="img/lab2/pitchRollHit_lowpass.png" alt="IMU FFT Table Shake Zoomed" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+<img src="img/lab2/pitchRollHit_lowpass_fft.png" alt="IMU FFT Table Shake" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+
+      </div>
+    </div>
+  </div>
+
+
+
+</section>
+
+<section class="section pt-4 pb-1">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">Angle V2</h4>
+        <h2 class="mb-4">Gyroscope</h2>
+			<p>
+				We can also use the gyroscope data from the IMU to get a reading of the pitch and roll angles. The gyroscope data gives us the angular velocity of the IMU, so we can integrate this data over time to get an estimate of the pitch and roll angles. However, the gyroscope data is subject to drift over time, so we can use a complementary filter
+to combine the accelerometer and gyroscope data to get a more accurate estimate of the pitch and roll angles. The complementary filter uses a weighted average of the accelerometer and gyroscope data, giving more weight to the accelerometer data at low frequencies (to correct for drift) and more weight to the gyroscope data at high frequencies (to preserve fast movements).
+Below is the equations and code to integrate the gyroscope data.
+			</p>
+      <pre data-lang="Arduino"><code>timeSinceStart = millis();
+            float dt = (timeSinceStart - last_timestamp) / 1000.0; // Convert ms to seconds
+            last_timestamp = timeSinceStart;
+            float gyrX = myICM.gyrX();
+            float gyrY = myICM.gyrY();
+            float gyrZ = myICM.gyrZ();
+            gyro_pitch += gyrY * dt;
+            gyro_roll += gyrX * dt;
+            gyro_yaw += gyrZ * dt;</code></pre>
+
+<p>
+  We can see a plot of the gyroscope data integrated over time below as we keep the IMU steady. We can see that the gyroscope data gives us a reading of the pitch and roll angles that is similar to the accelerometer data, but it is subject to drift over time.
+</p>
+<img src="img/lab2/gyroStatic.png" alt="IMU Gyro Pitch and Roll" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+<p>
+  We can also see plots of the gyroscope output when we move the IMU around. We can see that the gyroscope data captures the fast movements of the IMU since it is much smoother than the accelerometer data, but it is also subject to drift over time, which is why we need to use a complementary filter to combine the accelerometer and gyroscope data to get a more accurate estimate of the pitch and roll angles.
+</p>
+
+<img src="img/lab2/gyroMovingNoDelay.png" alt="IMU Gyro Pitch and Roll Moving" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+
+<p>
+  Additionally, we can see that if we increase the delay in our loop (in this case, we're introducing an extra delay of 20ms between measurements), we get more drift and choppiness in the gyroscope data since we are integrating over a longer period of time, which is why it is important to have a fast loop when using the gyroscope data to get an estimate of the pitch and roll angles.
+</p>
+
+<img src="img/lab2/gyroMoving20msDelay.png" alt="IMU Gyro Pitch and Roll Moving with Delay" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+
+<p>
+  Finally, we can implement a complementary filter to combine the accelerometer and gyroscope data to get a more accurate estimate of the pitch and roll angles. The complementary filter uses a weighted average of the accelerometer and gyroscope data, giving more weight to the accelerometer data at low frequencies (to correct for drift) and more weight to the gyroscope data at high frequencies (to preserve fast movements). Below is the code to implement the complementary filter.
+  The alpha value determines the weight given to the gyroscope data versus the accelerometer data. A higher alpha value gives more weight to the gyroscope data, while a lower alpha value gives more weight to the accelerometer data.
+  Since the accelerometer data is noisy but doesn't drift, and the gyroscope data is smooth but drifts over time, we want to choose an alpha value that balances these two factors. In this case, we chose an alpha value of 0.06, which gives more weight to the accelerometer data to correct for drift while still preserving some of the fast movements captured by the gyroscope data.
+  The yaw angle is not included in the complementary filter since we are not using the magnetometer data to get an estimate of the yaw angle, so the yaw angle is just integrated from the gyroscope data and is subject to drift over time.
+  In this example, I shake the IMU around to show how the complementary filter is able to capture the fast movements of the IMU while also correcting for drift over time, resulting in a smoother and more accurate reading of the pitch and roll angles compared to using just the accelerometer or gyroscope data alone, which the filter does a fairly good job of.
+<pre data-lang="Arduino"><code>float alpha = 0.06; // weight for the gyroscope data
+pitch = alpha * (pitch + gyrY * dt) + (1 - alpha) * acc_pitch;
+roll = alpha * (roll + gyrX * dt) + (1 - alpha) * acc_roll;</code></pre>
+
+<img src="img/lab2/compFilter.png" alt="IMU Complementary Filter Pitch and Roll" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+
+</div>
+    </div>
+  </div>
+</section>
+
+<section class="section pt-4 pb-1 bg-secondary">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">Collecting data</h4>
+        <h2 class="mb-4">Data Sampling</h2>
+			<p>
+				We can move the IMU collection code around to our main loop by including it under the write_data() function in our bluetooth sketch. This allows us to continuously collect data from the IMU and send it over bluetooth to our computer, where we can read it in real time and plot it using Jupyter notebooks. 
+        We can toggle the data collection on and off by sending a command over bluetooth, allowing us to collect data when we want to and not collect data when we don't want to. 
+        The function to collect the data is shown below, and it collects both the pitch and roll data from the IMU, applies a complementary filter to get a more accurate estimate of the angles, which can then later be sent over bluetooth in a string format that can be easily parsed in Python.
+			</p>
+
+      <pre data-lang="Arduino"><code>void collect_IMU_data() {
+while (!myICM.dataReady())
+{
+    // Wait for IMU data to be ready
+    delay(5);
+}
+agmt = myICM.getAGMT();
+acc2angle(agmt, &pitch, &roll);
+
+if (strcmp(char_arr, "DEG") == 0)
+{
+    // Convert to degrees
+    pitch = pitch * 180 / M_PI;
+    roll = roll * 180 / M_PI;
+}
+
+
+timeSinceStart = millis();
+
+// calculate angle from gyro data and append to buffer for FFT processing
+float dt = (timeSinceStart - last_timestamp) / 1000.0; // Convert ms to seconds
+
+last_timestamp = timeSinceStart;
+
+float gyrX = myICM.gyrX();
+float gyrY = myICM.gyrY();
+float gyrZ = myICM.gyrZ();
+
+gyro_pitch += gyrY * dt;
+gyro_roll += gyrX * dt;
+gyro_yaw += gyrZ * dt;
+
+float alpha = 0.06;
+c_pitch = alpha * (c_pitch + gyrY * dt) + (1 - alpha) * pitch;
+c_roll = alpha * (c_roll + gyrX * dt) + (1 - alpha) * roll;
+
+// append values for FFT processing
+if (pitchSampleCount < FFT_SIZE)
+{
+    pitchBufferA[pitchSampleCount] = (float32_t)pitch;
+    rollBufferA[pitchSampleCount] = (float32_t)roll;
+    IMUtimeBuffer[pitchSampleCount] = timeSinceStart;
+    gyroBufferX[pitchSampleCount] = gyro_roll;
+    gyroBufferY[pitchSampleCount] = gyro_pitch;
+    gyroBufferZ[pitchSampleCount] = gyro_yaw;
+    compBufferPitch[pitchSampleCount] = c_pitch;
+    compBufferRoll[pitchSampleCount] = c_roll;
+    pitchSampleCount++;
+}
+}</code></pre>
+
+<pre data-lang="Arduino"><code>void loop()
+{
+    // Listen for connections
+    BLEDevice central = BLE.central();
+
+    // If a central is connected to the peripheral
+    if (central)
+    {
+        Serial.print("Connected to: ");
+        Serial.println(central.address());
+
+        // While central is connected
+        while (central.connected())
+        {
+            // Send data
+            write_data();
+            if (IMU_ON)
+            {
+              collect_IMU_data();
+            }
+
+            // Read data
+            read_data();
+        }
+
+        Serial.println("Disconnected");
+    }
+}</code></pre>
+
+  <p>
+    We can collect the data at a rate of about 350Hz. I like to have separate arrays for storing the accelerometer and gyroscope data for debugging purposes, but we can also just have one array that stores the complementary filter output if we want to simplify our code and only care about the final angle estimates.
+    Having just one array for the complementary filter output also allows us to easily send this data over bluetooth without having to worry about sending both the accelerometer and gyroscope data separately and then having to parse it on the Python side to combine it back together, since the complementary filter output already combines the accelerometer and gyroscope data into a single estimate of the pitch and roll angles.
+    It also saves on memory since we don't have to store both the accelerometer and gyroscope data separately, which can be important on a microcontroller with limited memory.
+    Also, I use floats to store the angle data since it allows for more precision in the angle estimates, which can be important for certain applications where we need more accurate angle measurements, and because the FFT code inputs a float array, so using floats allows us to easily perform the FFT on the angle data without having to convert it from integers to floats first, which can save on processing time and simplify our code.
+    With a 32-bit float array, and if we store 3 arrays of complementary filter output (comp_pitch, comp_roll, and gyro_yaw), we can store up to about 32,000 samples in memory (384KB in Ram/(3*4)), which is about 45.68 seconds worth of data.
+  </p>
+
+  <p>
+    Also, below is an image of the range of time stamped data sent from the Artemis Nano to the computer over bluetooth. We can see that we are able to send data for about 22 seconds here which is more than 5 seconds.
+  </p>
+  <img src="img/lab2/time.png" alt="Bluetooth Data Plot" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;"/>
+
+
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section pt-4 pb-1">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">Car Stuff</h4>
+        <h2 class="mb-4">Stunt</h2>
+
+        <p>
+          From playing around with the car, I have found that it is very hard to do a manual wheelie. The car is quick at accelerating and spinning, but drifts on this carpet.
+          Additionally, When going straight forwards and back, it drifts to its right, which might be due to the carpet or the fact that the motors are not perfectly tuned to have the same speed.
+        </p>
+
+        			<section class="section pt-0 pb-1">
+				<div class="container">
+					<div class="row">
+						<div class="col-12">
+							<video controls style="width: 100%; height: auto; display: block; border-radius: 8px;" poster="img/lab2/flip.png" preload="none">
+								<source src="img/lab2/FlipsAndwheelie.mov" type="video/mp4">
+								<img src="img/lab2/flip.png" style="width: 100%; height: auto; display: block; border-radius: 8px;">
+							</video>
+						</div>
+					</div>
+				</div>
+			</section>
+
+              			<section class="section pt-0 pb-1">
+				<div class="container">
+					<div class="row">
+						<div class="col-12">
+							<video controls style="width: 100%; height: auto; display: block; border-radius: 8px;" poster="img/lab2/straight.png" preload="none">
+								<source src="img/lab2/straightLine.mov" type="video/mp4">
+								<img src="img/lab2/straight.png" style="width: 100%; height: auto; display: block; border-radius: 8px;">
+							</video>
+						</div>
+					</div>
+				</div>
+			</section>
+
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section pt-4 pb-1">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <!-- <h4 class="text-color-hover-light mb-2">Giving Credit</h4> -->
+        <!-- <h2 class="mb-4">Citations</h2> -->
+
+        <div class="mt-5 p-4" style="border-left: 4px solid #47ffc5; background: #f7f7f7;">
+          <p class="mb-0" style="font-style: italic;">ChatGPT was used to help format parts of this website and report as well as writing the FFT code in C.
+			<a href="https://aidan-mcnay.github.io/fast-robots-docs/lab1/" target="_blank">Aiden McNay's website</a> and <a href=https://correial.github.io/LuccaFastRobots/Fast%20Robots%20Stuff/lab-2/> Lucca Corrial's website </a>was used as a reference for the FFT plots.
+    
+		  </p>
+        </div>
+	</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Footer start -->
+<section class="footer">
+	<div class="container">
+		<div class="row ">
+			<div class="col-lg-6">
+				<p class="mb-0">Copyrights © 2019. Designed & Developed by <a href="themefisher.com">Themefisher</a></p>
+			</div>
+			<div class="col-lg-6">
+				<div class="widget footer-widget text-lg-right mt-5 mt-lg-0">
+					<ul class="list-inline mb-0">
+						<li class="list-inline-item"><a href="https://github.com/heisen-kong" target="_blank"><i class="ti-github mr-3"></i></a></li>
+						<li class="list-inline-item"><a href="https://www.linkedin.com/in/heisen-kong/" target="_blank"><i class="ti-linkedin mr-3"></i></a></li>
+						<li class="list-inline-item"><a href="https://www.instagram.com/heisens.creations/" target="_blank"><i class="ti-instagram mr-3"></i></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- Footer End -->
+
+<!-- jQuery -->
+<script src="plugins/jQuery/jquery.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="plugins/js/bootstrap.min.js"></script>
+<script src="plugins/aos/aos.js"></script>
+<script src="plugins/owl-carousel/owl.carousel.min.js"></script>
+<script src="plugins/shuffle/shuffle.min.js"></script>
+<script src="plugins/magnific-popup/jquery.magnific-popup.min.js"></script>
+<script src="plugins/animated-text/animated-text.js"></script>
+<script src="plugins/counto/apear.js"></script>
+<script src="plugins/counto/counTo.js"></script>
+
+ <!-- Google Map -->
+<script src="plugins/google-map/map.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkeLMlsiwzp6b3Gnaxd86lvakimwGA6UA&callback=initMap"></script> 
+<!-- Main Script -->
+<script src="js/script.js"></script>
+
+</html>

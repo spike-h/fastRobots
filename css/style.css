@@ -320,7 +320,7 @@ body {
 
 .project_container {
 	border-radius: 25px;
-	background-color: #343a40 !important;
+	background-color: #343a40 ;
 	overflow: hidden;
 	color: white;
 	text-align: center;
@@ -437,76 +437,6 @@ body {
     transition: background-image 0.4s ease-in-out; 
     will-change: background-image;
 }
-
-.eplanner {
-	background-image: url("../img/eplanner.png");
-}
-
-.dontwalkby {
-	background-image: url("../img/dwb_title.jpg");
-}
-
-.thomasalien {
-	/*background-image: url("../img/thomasalien.jpg");*/
-	background-image: url("../img/anim/thomas_anim.webp");
-}
-
-.sceneio {
-	background-image: url("../img/sceneio.jpg");
-}
-
-.stealthknight {
-	background-image: url("../img/knightgame.jpg")
-}
-
-.ipatch {
-	/*background-image: url("../img/ipatch.jpg");**/
-	background-image: url("../img/anim/pirates_anim.webp");
-}
-
-.rowbritannia {
-	background-image: url("../img/rowbritannia.jpg");
-}
-
-.ulxr {
-	/*background-image: url("../img/launcher.png");*/
-	background-image: url("../img/anim/launcher_anim.webp");
-}
-
-.blocks {
-	background-image: url("../img/blocks.png");
-}
-
-.controlpanel {
-	background-image: url("../img/controlpanel.png");
-}
-
-.aurora {
-	/*background-image: url("../img/aurora.png");*/
-	background-image: url("../img/anim/aurora_anim.webp");
-}
-
-.microgestures {
-	/*background-image: url("../img/microgestures.jpg");*/
-	background-image: url("../img/anim/microgestures_anim.webp");
-}
-
-.barista {
-	background-image: url("../img/barista.png");
-}
-
-.artstation2020 {
-	background-image: url("../img/similie.jpg");
-}
-
-.shortcampaign {
-	background-image: url("../img/anim/shortcampaign_anim.webp");
-}
-
-.thirdp {
-	background-image: url("../img/anim/thirdp_anim.webp");
-}
-
 
 .navbar {
 	height: 70px;

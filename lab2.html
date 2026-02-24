@@ -409,10 +409,10 @@ roll = alpha * (roll + gyrX * dt) + (1 - alpha) * acc_roll;</code></pre>
 			</p>
 
       <pre data-lang="Arduino"><code>void collect_IMU_data() {
-while (!myICM.dataReady())
+if (!myICM.dataReady())
 {
     // Wait for IMU data to be ready
-    delay(5);
+    return;
 }
 agmt = myICM.getAGMT();
 acc2angle(agmt, &pitch, &roll);
