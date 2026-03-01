@@ -100,6 +100,19 @@ THEME MODIFIED FROM THEMEFISHER HTML TEMPLATE
 	</div>
 </section> -->
 
+<!-- <section class="section pt-5 pb-1">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">Bill Gates 5G Waves</h4>
+        <h2 class="mb-4">Using Bluetooth</h2>
+        <p>
+        </p>
+      </div>
+    </div>
+  </div>
+</section> -->
+
 <!-- prelab -->
 
 <!-- Note the I2C sensor address
@@ -420,7 +433,9 @@ Sketch of wiring diagram (with brief explanation if you want) -->
     }</code></pre>
 
     <p>
-          We can then read this data in a Jupyter notebook and plot it in real time to see the distance measurements from both sensors over time. Below is a plot of the distance measurements from both sensors over a 5 second period, where we can see that the sensors are reporting slightly different measurements but are very consistent with each other and are able to capture the changes in distance as we move an object in front of the sensors. This is a good indication that our sensors are working properly and that we can use them to detect obstacles in our environment.
+          We can then read this data in a Jupyter notebook and plot it in real time to see the distance measurements from both sensors over time. 
+          Below is a plot of the distance measurements from both sensors over a 5 second period, in which we positioned both sensors next to each other and I moved my a card away from the sensors at a steady rate. 
+          We can see that the sensors are reporting slightly different measurements but are very consistent with each other. This is a good indication that our sensors are working properly and that we can use them to detect obstacles in our environment.
     </p>
     <img src="img/lab3/twoSensorsBLE.png" alt="Bluetooth Distance Plot" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
       </div>
@@ -430,12 +445,99 @@ Sketch of wiring diagram (with brief explanation if you want) -->
 
 
 <!-- Time v Angle: Include graph of data sent over bluetooth -->
+<section class="section pt-5 pb-1">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">Connecting to Lab 2</h4>
+        <h2 class="mb-4">Using IMU and ToF Sensors</h2>
+        <p>
+          In addition to sending distance measurements from our ToF sensors over Bluetooth, we can also send data from our IMU over Bluetooth to get a better understanding of our environment
+          and to determine where the obstacles are in relation to our robot. We altered the SEND_DISTANCE_STREAM case in our code to also include the IMU data by adding <code>collect_imu_data()</code>, 
+          from the previous lab, between measurements and sending those out over Bluetooth as well. A plot of collecting IMU and ToF data is shown below:
+        </p>
+
+        <img src="img/lab3/imuAndTOF.png" alt="Bluetooth Distance and IMU Plot" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+
+        <p>
+          The pitch and roll data is in degrees while the distance data is in mm, which is why the distance data looks relatively flat. 
+          However, we can still see that the distance data is changing in relation to our orientation, as we can see that the spiking pattern is distance matches up with the small spikes in pitch and roll.
+          For this plot, I was shaking my hand back and forth, around both x and y axis, above a table while holding the time of flight sensors slightly offset from each other.
+          We can see that as I turn my hand, the sensors oscillate between seeing the far end (or lack) of the table and seeing the near end of the table.
+          The large spikes on the graph are from when the sensors are pointed off the table, since the ToF sensors in short mode have a maximum reading of about 1.3m, so when they are pointed at a far away object/no object at all the reading saturates to 1.3m.
+          We can see that the sensor readings spikes are correlated with the IMU readings as well since the pitch and roll data follows the same spiking pattern as the distance spikes.
+        </p>
+
+      </div>
+    </div>
+  </div>
+</section>
 
 
-<!-- (5000) Discussion on infrared transmission based sensors
-(5000) Sensitivity of sensors to colors and textures -->
+<!-- (5000) Discussion on infrared transmission based sensors -->
+ <!-- Discuss a couple, highlight the differences in their fuctionality and the pros/cons of each. -->
+
+<section class="section pt-5 pb-1">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">Other Pew Pew Heat Light Sensors</h4>
+        <h2 class="mb-4">Different Types of IR Distance Sensors</h2>
+        <p>
+          A few common types of infrared based sensors are amplitude-based sensors, triangulation-based sensors, and our time of flight sensors.
+          
+          Amplitude-based sensors work by emitting an infrared signal and measuring the intensity of the reflected signal to determine the distance to an object. They are generally cheaper and simpler than other types of sensors (~$0.50), but they can be less accurate and more susceptible to interference from ambient light and the reflectivity of the object.
+          Additionally, they have a much shorter range than other IR sensors of a recommended maximum range of about 10cm. These sensors are more useful in applications where the distance is relatively short, cost is a concern, and we don't need to worry about accurate distance measurements, just the presence of an object within a certain range, such as in a simple obstacle detection system for a small robot or in a touchless switch.
+
+          Triangulation-based sensors work by emtting an infrared laser and using array of photodetectors to measure the angle of the reflected signal to determine the distance to an object. They are generally more accurate than amplitude-based sensors and have a longer range (maximum recommended range of ~1m), but they can be more expensive (~$10) and more complex to implement. 
+          These sensors are also often larger since they need an array of photodetectors, and they have a lower sample rate than amplitude-based sensors (~26Hz). These sensors are also susceptable to high ambient light.
+          The triangulation-based are more useful in applications where we need extremely precise distance measurements at a short range, such as in a 3D scanner or in a robotic arm that needs to pick up small objects with high precision.
+
+          Time of flight sensors, like the ones we are using, work by emitting a modulated infrared signal and measuring the time it takes for the signal to reflect back to the sensor to determine the distance to an object. They are generally more accurate than amplitude-based sensors and have a longer range than both amplitude-based and triangulation-based sensors (maximum recommended range of ~4m), and can be cheaper than triangulation-based sensors (~$6.50), but are less accurate at short distances.
+          Additionally, their sample rate can vary (7-30Hz) depending on the distance mode, so if you want to measure short or long maximum distances. These sensors are also mostly insensitive to texture, color, and ambient light.
+          These sensors are good for detecting obstacles and measuring distances at a relatively long range of up to 4m, or detecting them at short range, but cheaply and with a very small form factor.
+        </p>
+
+      </div>
+    </div>
+  </div>
+</section>
 
 
+<!-- (5000) Sensitivity of sensors to colors and textures -->
+ <!-- Check and discuss whether the ToF sensor is sensitive to different colors and textures. -->
+
+<section class="section pt-5 pb-1">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">Objects' Effect on IR Sensors</h4>
+        <h2 class="mb-4">How Color and Texture Affect ToF Readings</h2>
+        <p>
+          We tested the sensitivity of our ToF sensors to different colors and textures by measuring the distance to different objects with varying colors and textures and comparing the readings. 
+          We found that the sensor was generally not very sensitive to different colors, as we were able to get similar readings for objects of different colors but similar textures. The readings were all conducted at the same distance of about one foot (304.8mm) to control for distance.
+          We had the ToF read distance for 5 seconds for each object to get a sense of the distributions of readings for each color and texture, and we found that the distributions of readings for different colors but similar textures were mostly overlapping, indicating that the sensor was not very sensitive to color.
+          For our test, we placed a Rubix cube at the one foot line so each color had the same texture. A picture of the testing setup is shown below:
+
+<img src="img/lab3/rubix.wepb" alt="ToF Sensor Color Sensitivity Setup" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+
+          However, we did find that the sensor was more sensitive to different textures, as we were able to get different readings for objects of similar colors but different textures.
+          Again, our testing setup had us place objects of different textures at the same distance of one foot and have the ToF read distance for 5 seconds to get a sense of the distributions of readings for each texture.
+          We tested a soft but smooth object (red t-shirt), a hard and smooth object (a rubix cube), a soft and rough object (a ball of cotton stuffing), a rough and smooth and slightly translucent object (a crumpled up plastic bag), and a hard and rough object (a crumpled piece of paper).
+          A picture of the testing objects are shown below:
+
+          <img src="img/lab3/exampleObjects.png" alt="ToF Sensor Texture Sensitivity Setup" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+
+          
+          Overall, the objects with a rougher texture (everything but the Rubix cube) had higher distance readings than the smoother object (the Rubix cube). This is likely because the rough texture causes more scattering of the infrared signal, which can lead to a longer time of flight and thus a higher distance reading.
+          Interestingly, the crumpled up plastic bag had the highest distance readings, which could be due to its combination of being rough and slightly translucent, which could cause even more scattering of the infrared signal. 
+          These results indicate that the sensor is fairly sensitive to different textures, and that the texture of an object can have a significant impact on the distance readings from the sensor. This is important to keep in mind when using the sensor in real-world applications, as the texture of objects in the environment can affect the accuracy of distance measurements and obstacle detection.
+        </p>
+
+      </div>
+    </div>
+  </div>
+</section>
 
 
 <section class="section pt-4 pb-1">
@@ -446,8 +548,8 @@ Sketch of wiring diagram (with brief explanation if you want) -->
         <!-- <h2 class="mb-4">Citations</h2> -->
 
         <div class="mt-5 p-4" style="border-left: 4px solid #47ffc5; background: #f7f7f7;">
-          <p class="mb-0" style="font-style: italic;">ChatGPT was used to help format parts of this website and report as well as writing the FFT code in C.
-			<a href="https://aidan-mcnay.github.io/fast-robots-docs/lab1/" target="_blank">Aiden McNay's website</a> and <a href=https://correial.github.io/LuccaFastRobots/Fast%20Robots%20Stuff/lab-2/> Lucca Corrial's website </a>was used as a reference for the FFT plots.
+          <p class="mb-0" style="font-style: italic;">ChatGPT was used to help format parts of this website and report.
+			<a href="https://aidan-mcnay.github.io/fast-robots-docs/lab1/" target="_blank">Aiden McNay's website</a> and <a href=https://boltstrike.github.io/pages/lab3.html> Aidan Derocher's website </a>was used as a reference for texture and color plots.
     
 		  </p>
         </div>
