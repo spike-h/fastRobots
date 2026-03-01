@@ -517,17 +517,18 @@ Sketch of wiring diagram (with brief explanation if you want) -->
           We tested the sensitivity of our ToF sensors to different colors and textures by measuring the distance to different objects with varying colors and textures and comparing the readings. 
           We found that the sensor was generally not very sensitive to different colors, as we were able to get similar readings for objects of different colors but similar textures. The readings were all conducted at the same distance of about one foot (304.8mm) to control for distance.
           We had the ToF read distance for 5 seconds for each object to get a sense of the distributions of readings for each color and texture, and we found that the distributions of readings for different colors but similar textures were mostly overlapping, indicating that the sensor was not very sensitive to color.
-          For our test, we placed a Rubix cube at the one foot line so each color had the same texture. A picture of the testing setup is shown below:
+          For our test, we placed a Rubix cube at the one foot line so each color had the same texture. Pictures of the testing setup and results are shown below:
 
-<img src="img/lab3/rubix.wepb" alt="ToF Sensor Color Sensitivity Setup" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+<img src="img/lab3/rubix.webp" alt="ToF Sensor Color Sensitivity Setup" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+<img src="img/lab3/cube.png" alt="ToF Sensor Color Sensitivity Results" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
 
           However, we did find that the sensor was more sensitive to different textures, as we were able to get different readings for objects of similar colors but different textures.
           Again, our testing setup had us place objects of different textures at the same distance of one foot and have the ToF read distance for 5 seconds to get a sense of the distributions of readings for each texture.
           We tested a soft but smooth object (red t-shirt), a hard and smooth object (a rubix cube), a soft and rough object (a ball of cotton stuffing), a rough and smooth and slightly translucent object (a crumpled up plastic bag), and a hard and rough object (a crumpled piece of paper).
-          A picture of the testing objects are shown below:
+          Pictures of the testing objects and results are shown below:
 
           <img src="img/lab3/exampleObjects.png" alt="ToF Sensor Texture Sensitivity Setup" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
-
+          <img src="img/lab3/textures.png" alt="ToF Sensor Texture Sensitivity Results" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
           
           Overall, the objects with a rougher texture (everything but the Rubix cube) had higher distance readings than the smoother object (the Rubix cube). This is likely because the rough texture causes more scattering of the infrared signal, which can lead to a longer time of flight and thus a higher distance reading.
           Interestingly, the crumpled up plastic bag had the highest distance readings, which could be due to its combination of being rough and slightly translucent, which could cause even more scattering of the infrared signal. 
