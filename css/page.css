@@ -159,6 +159,21 @@ video {
     }
 }
 
+/* Specific class for vertical/portrait images like the temp sensor */
+.image-portrait {
+    max-width: 350px; /* Limits width on desktop */
+    max-height: 600px; /* Prevents it from being too tall */
+    width: auto;
+    height: auto;
+}
+
+/* Responsive adjustment for small phones */
+@media only screen and (max-width: 482px) {
+    .image-portrait {
+        max-width: 280px;
+    }
+}
+
 /* Container for the code block */
 pre {
     /* background: #282c34;  */
