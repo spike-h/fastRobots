@@ -97,7 +97,7 @@ THEME MODIFIED FROM THEMEFISHER HTML TEMPLATE
       <div class="col-lg-4">
         <div class="mb-4">
 		  <h2 class="mb-5">Fast Robots: Lab 6</h2>
-		  <img src="img/lab6/lab6cover.gif" alt="Fast Robots Lab 6" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+		  <img src="img/lab6/lab6Cover.gif" alt="Fast Robots Lab 6" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
           <p><span class="text-color-hover-light">Arduino IDE</span> • <span class="text-color-hover-light">Bluetooth</span> • <span class="text-color-hover-light">Jupyter Notebooks</span>
 			• <span class="text-color-hover-light">PID</span></p> 
 		</div>
@@ -467,6 +467,9 @@ THEME MODIFIED FROM THEMEFISHER HTML TEMPLATE
                 We also wanted to see how much the measurements drift overtime when the robot is stationary. On startup, the DMP calibrates itself to about 3.46 degrees, probably due to the magnetometer, and has a standard deviation of about 0.022 degrees. Below is a plot of the yaw measurements:
             </p>
             <img class="image-portrait" src="img/lab6/imuTime.png" alt="Car Interior" style="display: block; border-radius: 8px; margin-top: 20px;">
+            <p>
+                Also, according to the <a href="https://www.utmel.com/components/icm-20948-gyroscope-magnetometer-9-axis-sensor-video-datasheet-features-and-pinout?id=1809">datasheet,</a> the maximum degree/sec that the gyroscope can measure is 2000 degrees/sec, which means that the fastest that the robot could spin without saturating the gyro is about 11.1 rotations per second, which is pretty fast and is never reached in our tests, so we don't have to worry about that. 
+            </p>
 
       </div>
     </div>
@@ -476,7 +479,7 @@ THEME MODIFIED FROM THEMEFISHER HTML TEMPLATE
 </section>
 
     <!-- proportional gain -->
-<section class="section pt-5 pb-5">
+<section class="section pt-5 pb-5 bg-secondary">
   <div class="container">
     <div class="row mb-5">
       <div class="col-lg-8 offset-lg-2">
@@ -485,7 +488,7 @@ THEME MODIFIED FROM THEMEFISHER HTML TEMPLATE
 			<p>For the first trial Kp value, we wanted a value that would be pretty slow, so we mapped an error of 180 degrees to a PWM output of 200, which gave us a Kp value of about 1.11. This value gave us a pretty slow response with no overshoot, 
                 and also since the minimum PWM to spin is about 130, if we get to an angle that is less than about 117 degrees away from the setpoint, we will stop moving since the output will be less than 130, and we won't move. Because of this, I set the 
                 PWM vlaue to output a minimum of 130 degrees when the output is above 1.4 to prevent this from happening. If I set the output threshold lower then the robot would jitter as it got to its setpoint. A kp=1.11 was super slow though, so I increased it to 2.5 after testing.
-                Below is are videos of it running with kp=2.5 without an output threshold and one with and a plots of the results. The robot does overshoot but is able to get to the setpoint and have a steady state error of about 0.015 degrees in the oscillation case after settling, and the threshold case has an error of about 0.45 degrees.
+                Below is are videos of it running with kp=2.5 without an output threshold and one with and a plots of the results. The robot does overshoot but is able to get to the setpoint and have a steady state error of about 0.015 degrees in the oscillation case after settling, and the threshold case has an error of about 0.042 degrees.
                 However, we have to remember that the precision of our measurements is only about 0.022 degrees, so the robot is basically oscillating around the limit of our measurement precision, which is pretty good with just a proportional term.
             </p>
 
@@ -506,14 +509,14 @@ THEME MODIFIED FROM THEMEFISHER HTML TEMPLATE
   </div>
 </section>
 
-<section class="section pt-5 pb-5 bg-secondary">
+<section class="section pt-5 pb-5">
   <div class="container">
     <div class="row mb-5">
       <div class="col-lg-8 offset-lg-2">
         <h4 class="text-color-hover-light mb-2">More Testing</h4>
         <h2 class="mb-4">Kicks and Changing Setpoint</h2>
 			<p>
-                We also wanted to see how our robot would respond to disturbances and changes in setpoint. We found that with just a proportional term, the robot was able to recover well and get to a different setpoint also pretty well.
+                We also wanted to see how our robot would respond to disturbances and changes in setpoint. We found that with just a proportional term, the robot was able to recover well and get to a different setpoint also pretty well with a steady error of 0.06 degrees for the first point and 0.1 degrees for the second.
                 To set a different setpoint while its running, we just start up the PID loop again using the same code as above just without overwriting the existing data.
                 For changing the setpoint, after a kick the robot gets close to -180 degrees which is why it looks so far from the setpoint on the graph, but it's equivalent.
             </p>
@@ -582,32 +585,75 @@ THEME MODIFIED FROM THEMEFISHER HTML TEMPLATE
   </div>
 </section>
 
-
-       <!-- integral windup -->
 <section class="section pt-5 pb-5">
   <div class="container">
     <div class="row mb-5">
       <div class="col-lg-8 offset-lg-2">
-        <h4 class="text-color-hover-light mb-2">We CANNOT be more than this far away</h4>
-        <h2 class="mb-4">Integral Windup Protection</h2>
-			<p>As mentioned previously, the main problem with our integral term is that it accumulates way too much error in the beginning as it approaches the wall.
-                This can cause worse problems if our integral term was larger, since large amounts of error can accumulate, causing the robot to overshoot and slam hard into a wall. Below is a video of this happening at 4am as it slams into my roomates doors:
+        <h4 class="text-color-hover-light mb-2">Helicopter Helicopterrrrr BRRRRRR</h4>
+        <h2 class="mb-4">Integrator Windup</h2>
+			<p>
+                If we stop the robot from moving, then it can accumulate error in its integral term.
+                This sets the output to the max value for a while until it has time to settle down. A video demonstrating this is shown below:
             </p>
-            <video controls autoplay muted loop style="width: 100%; height: auto; display: block; border-radius: 8px;">
-					<source src="img/lab5/crash.mov" type="video/mp4">
-				</video>
-            <p>When used correctly, adding a max error sum of 100 can prevent the error from ever accumulating too much allowing the PID loop to dissipate it when it gets stuck too close to the wall as well as preventing any large overshoots. Below is a video and plot of the robot running with this windup protection.
-            </p>
-            <video controls autoplay muted loop style="width: 100%; height: auto; display: block; border-radius: 8px;">
-					<source src="img/lab5/final.mov" type="video/mp4">
-				</video>
-                <img class="image-portrait" src="img/lab5/final.png" alt="Car Interior" style="display: block; border-radius: 8px; margin-top: 20px;">
-            <p>This version has an integral term and oscillates very closely around 304mm. This is the limit of precision that we are able to get since from here we are limited by the preciseness of our ToF sensor.
-                Our ToF sensor, as hooked up, oscillates around 304mm itself so our robot can never gain better precision from this one sensor measurement. Below is a plot of the ToF sensor over time as it stands still to showcase this.
-            </p>
-                            <img class="image-portrait" src="img/lab5/tofoutput.png" alt="Car Interior" style="display: block; border-radius: 8px; margin-top: 20px;">
-                
 
+            	<video controls muted loop style="width: 100%; height: auto; display: block; border-radius: 8px;" poster="img/lab6/fav11_integrator_kick_no_max.png" preload="none">
+					<source src="img/lab6/fav11_integrator_kick_no_max.mov" type="video/mp4">
+				</video>
+                <!-- <img src="img/lab6/fav11_integrator_kick_no_max_graph.png" alt="Car Interior" style="width:75%; display: block; border-radius: 8px; margin-top: 20px; margin-left: auto; margin-right: auto;"> -->
+
+            <p> 
+                Capping the max integral term to 400 prevents this from happening since the error can never get too large to make it spin uncontrollably forever. This may be too low for the future implementation of the PID controller since we later lower
+                Ki to 0.1, so the integral term will only contribute 40 to the output at most, which may not be enough to get the robot to turn on surfaces with higher friction, but it works for our current implementation and is a tunable parameter that can be increased if we find that we need more integral output in the future.
+                Here the robot accumulates error but then can settle to a reasonable stopping point instead of spinning uncontrollably.
+                The video and plot of the trial with the max integral term (and ki=0.25) is shown below:
+            </p>
+
+                <video controls muted loop style="width: 100%; height: auto; display: block; border-radius: 8px;" poster="img/lab6/fav12_integrator_kick_with_max.png" preload="none">
+					<source src="img/lab6/fav12_integrator_kick_with_max.mov" type="video/mp4">
+				</video>
+                <img src="img/lab6/fav12_integrator_kick_with_max_graph.png" alt="Car Interior" style="width:75%; display: block; border-radius: 8px; margin-top: 20px; margin-left: auto; margin-right: auto;">
+
+      </div>
+    </div>
+		</div>
+    </div>
+  </div>
+</section>
+
+<section class="section pt-5 pb-5 bg-secondary">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">Making Sure Everything Still Works.....It Doesn't....</h4>
+        <h2 class="mb-4">Derivative Term</h2>
+			<p>
+                Adding an integral term helps the robot turn on different surfaces, but it also causes the accumulated error to push against the proportional term if we overshoot, causing the robot to take forever to settle to the setpoint.
+                This problem can be prevented by adding a derivative term to decrease the overshoot. Below is a plot of the robot turning without a derivative term. The system overshoots and the integral term fights back against the proportional term for a long time, causing it to take a long time to settle to the setpoint.
+                In this trial, the final error is about 13.4 degrees.
+            </p>
+
+                <img src="img/lab6/fav13_pid_no_work_without_d.png" alt="Car Interior" style="width:75%; display: block; border-radius: 8px; margin-top: 20px; margin-left: auto; margin-right: auto;">
+
+            <p> 
+                For our derivative term, we take the derivative of the integral of the angle changes output by the gyroscope. This calculation could most likely be simplified by getting the change in angle directly from the IMU, but manually calculating it works too.
+                Because we initialize the previous error to the current error on the first run, we don't get a huge spike in the derivative term on the first run or when we change the setpoint, and the error calculation is smooth and handles going back and forth between 180 and -179 (in the PID code at the top of the site) so we don't have much derivative kick.
+                However, if we did have a derivative kick for some reason, like physically kicking the robot or a fast loop time with a noisy derivative term, we could give a minimum dt for our calculation and add a low pass filter to the derivative term to smooth it out and prevent the kick from causing a huge spike in the output. This is done by taking a weighted average of the current derivative and the previous derivative, which is also shown in the code above with the alpha value of 0.9
+                which seemed to work the best.
+                After tuning for a while, I found that a Kp value of 2.5, Ki value of 0.1, and Kd value of 0.09 gave me a pretty good response with a much smaller overshoot and a final error of about 0.487 degrees. The plot of this trial is shown below:
+            </p>
+
+                <img src="img/lab6/fav14_pid_work_with_d.png" alt="Car Interior" style="width:75%; display: block; border-radius: 8px; margin-top: 20px; margin-left: auto; margin-right: auto;">
+
+            <p>
+                However, on the floor of Tang Hall, with just the proportional term, the robot was able to settle to a point about 0.042 degrees away from the setpoint. This signals that if we want max precision and we know the surface of the floor
+                (and that it is on the floor of Tang Hall), we can get the best performance by just using Kp=2.5, Ki=Kd=0.
+            </p>
+            <p>
+                Also looking ahead for future labs, we may want to drive forwards and turn at the same time. Changing the PID code should be simple for this to just change our turning from commanding an absolute output to adding an output to each motor to preserve any forwards command.
+            </p>
+
+      </div>
+    </div>
 		</div>
     </div>
   </div>
@@ -621,7 +667,7 @@ THEME MODIFIED FROM THEMEFISHER HTML TEMPLATE
         <!-- <h2 class="mb-4">Citations</h2> -->
 
         <div class="mt-5 p-4" style="border-left: 4px solid #47ffc5; background: #f7f7f7;">
-          <p class="mb-0" style="font-style: italic;">I collaborrated with Ananya Jajodia and Shao Stassen on this lab. I also used <a href=https://boltstrike.github.io/pages/lab3.html> Aidan Derocher's website </a>as a reference for the plots and extrapolation.
+          <p class="mb-0" style="font-style: italic;">I collaborrated with Ananya Jajodia on this lab. I also used <a href=https://boltstrike.github.io/pages/lab6.html> Aidan Derocher's website </a>as a reference for the plots and derivative calculation.
     
 		  </p>
         </div>
