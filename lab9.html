@@ -16,7 +16,7 @@ THEME MODIFIED FROM THEMEFISHER HTML TEMPLATE
 		<meta name="author" content="Spike" />
 		<!-- <link rel="icon" href="icon.gif" type="image/gif" /> -->
 		<link rel="icon" href="img/me_circle.png" />
-		<title>Fast Robots Lab 8</title>
+		<title>Fast Robots Lab 9</title>
 		<meta name="keywords" content="lab8, fastRobots, arduino, artemis nano," />
 
   <!-- ** Plugins Needed for the Project ** -->
@@ -229,6 +229,7 @@ for i in range(0, 360, 15):
             Before mapping, we want to determine if our scans are precise enough between scans to create a coherent map. 
             To test this, I ran the mapping code to do two full 360 degree scans of the environment, after picking up the robot and about 16 minutes apart, and then plotted the distance measurements from each scan on top of each other to see how well they aligned.
             The plot of this test is shown below. The two scans are shown in different colors, and we can see that they align pretty well with each other.
+            And because I trust the IMU data itself more than the setpoint I give it, I will use the raw yaw data as the angle of the bot.
         </p>
         <img src="img/lab9/precisenessDiffScans.png" alt="Preciseness of Scans" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
     </div>
