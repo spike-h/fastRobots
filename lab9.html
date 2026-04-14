@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+
+<!--
+THEME MODIFIED FROM THEMEFISHER HTML TEMPLATE
+ // WEBSITE: https://themefisher.com
+-->
+
+<html lang="zxx">
+
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no"
+		/>
+		<meta name="author" content="Spike" />
+		<!-- <link rel="icon" href="icon.gif" type="image/gif" /> -->
+		<link rel="icon" href="img/me_circle.png" />
+		<title>Fast Robots Lab 8</title>
+		<meta name="keywords" content="lab8, fastRobots, arduino, artemis nano," />
+
+  <!-- ** Plugins Needed for the Project ** -->
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <!-- Main Stylesheet -->
+   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css"> -->
+	<link rel="stylesheet" href="css/atelier-seaside-light.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+	<script>hljs.highlightAll();</script>
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/page.css" rel="stylesheet">
+
+</head>
+
+<body>
+  
+<!-- Header Start --> 
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark tab-navigation" style="z-index: 1020">
+    <div class="container-xxl">
+<ul class="nav nav-tabs w-100" style="border-bottom: none">
+    <li class="nav-item flex-fill text-center">
+        <a href="index.html" class="nav-link tab-link">Home</a>
+    </li>
+
+    <li class="nav-item flex-fill text-center mx-1">
+        <a href="#" class="nav-link tab-link active">Fast Robots</a>
+    </li>
+    
+    <li class="nav-item flex-fill text-center">
+        <a href="lab1.html" class="nav-link tab-link" style="font-size: 0.9em;">Lab 1</a>
+    </li>
+    <li class="nav-item flex-fill text-center">
+        <a href="lab2.html" class="nav-link tab-link" style="font-size: 0.9em;">Lab 2</a>
+    </li>
+    <li class="nav-item flex-fill text-center">
+        <a href="lab3.html" class="nav-link tab-link" style="font-size: 0.9em;">Lab 3</a>
+    </li>
+	<li class="nav-item flex-fill text-center">
+        <a href="lab4.html" class="nav-link tab-link" style="font-size: 0.9em;">Lab 4</a>
+    </li>
+	<li class="nav-item flex-fill text-center">
+		<a href="lab5.html" class="nav-link tab-link" style="font-size: 0.9em;">Lab 5</a>
+	</li>
+	<li class="nav-item flex-fill text-center">
+		<a href="lab6.html" class="nav-link tab-link" style="font-size: 0.9em;">Lab 6</a>
+	</li>
+	<li class="nav-item flex-fill text-center">
+		<a href="lab7.html" class="nav-link tab-link" style="font-size: 0.9em;">Lab 7</a>
+	</li>
+		<li class="nav-item flex-fill text-center">
+		<a href="lab8.html" class="nav-link tab-link" style="font-size: 0.9em;">Lab 8</a>
+	</li>	
+	<li class="nav-item flex-fill text-center">
+		<a href="lab9.html" class="nav-link tab-link active" style="border-bottom: 2px solid #47daff; font-size: 0.9em;">Lab 9</a>
+	</li>
+	<li class="nav-item flex-fill text-center">
+		<a href="lab10.html" class="nav-link tab-link" style="font-size: 0.9em;">Lab 10</a>
+	</li>
+	<li class="nav-item flex-fill text-center">
+		<a href="lab11.html" class="nav-link tab-link" style="font-size: 0.9em;">Lab 11</a>
+	</li>
+	<li class="nav-item flex-fill text-center">
+		<a href="lab12.html" class="nav-link tab-link" style="font-size: 0.9em;">Lab 12</a>
+	</li>
+</ul>
+    </div>
+</nav>
+
+
+
+<!-- Header Close -->  
+
+<!-- Hero Section -->
+<section class="section pt-5 pb-0">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="mb-4">
+		  <h2 class="mb-5">Fast Robots: Lab 9</h2>
+		  <img src="img/lab9/lab9cover.gif" alt="Fast Robots Lab 9" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+          <p><span class="text-color-hover-light">Arduino IDE</span> • <span class="text-color-hover-light">Bluetooth</span> • <span class="text-color-hover-light">Jupyter Notebooks</span>
+			• <span class="text-color-hover-light">PID</span>  • <span class="text-color-hover-light">Kalman Filter</span>
+          </p>
+		</div>
+	</div>
+      <div class="col-lg-8">
+        <div class="mb-4">
+          <h3 class="text-color mb-4">Mapping</h3>
+          <p class="lead">This lab is about creating a map of the environment using sensor data. We turn at known locations and record the distance measurements to create a map of the environment.</p> 
+          <!-- <p class="mt-3">The purpose of Lab 1 is to setup and become familiar with the Arduino IDE and 
+			the Artemis board. This lab involves programming your board, using the board 
+			LED, reading/writing serial messages over USB, and using the onboard temperature sensor and Pulse 
+			Density Microphone.</p> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Hero Video -->
+<!-- <section class="section pt-0 pb-5">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<video controls autoplay muted loop style="width: 100%; height: auto; display: block; border-radius: 8px;" poster="images/portfolio/HRC/hrc2_cover_wide.png">
+					<source src="images/portfolio/HRC/HRC_Codesign.mp4" type="video/mp4">
+					<img src="images/portfolio/HRC/hrc2_cover_wide.png" alt="Human-Robot Co-design" style="width: 100%; height: auto; display: block; border-radius: 8px;">
+				</video>
+			</div>
+		</div>
+	</div>
+</section> -->
+
+<!-- <video controls autoplay muted class="video-portrait" poster="img/lab1/tempCover.png" preload="none">
+	<source src="img/lab1/temp.mov" type="video/mp4">
+	<img src="img/lab1/tempCover.png" style="width: 100%; height: auto; display: block; border-radius: 8px;">
+</video> -->
+
+<!-- <img class="image-portrait" src="img/lab4/tapeMeasurer.webp" alt="Straight Line Test" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;"> -->
+
+<!-- Angular PID Notifications -->
+<section class="section pt-5 pb-5 bg-secondary">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">Hey Hey We Finished Rotating</h4>
+        <h2 class="mb-4">Angular PID Bluetooth Commands</h2>
+        <p>
+            I implemented a method to detect when the car's motor output from the PID loop was less than a certain threshold (in this case, 1) for a certain
+            amount of cycles (in this case, 20) to determine when the car had finished rotating to the desired angle. When this condition was met, the car would send a Bluetooth message to the computer to indicate that it had finished rotating. 
+            This allowed me to use the angular PID loop in my mapping code to rotate the car to specific angles and wait for it to finish before taking distance measurements. 
+            This was crucial for creating an accurate map of the environment, as it ensured that the car was always facing the correct direction when taking measurements and we could keep it still for half a second before taking the distance measurements.
+            The Python code to send the Bluetooth command is shown below:
+        </p>
+        <pre data-lang="Python"><code>async def wait_for_setpoint():
+    global setpointReached
+    while not setpointReached and (time.time() - start_time < 15):
+        await asyncio.sleep(0.1) 
+
+# keep grabbing time of flight data until its not -1
+async def wait_for_valid_distance():
+    global sentValidNotifDistance, sendingValidNotifDistance
+    sendingValidNotifDistance = True
+    while not sentValidNotifDistance:
+        ble.send_command(CMD.SEND_BOTH_DISTANCES, "")
+        await asyncio.sleep(0.1)  
+    sendingValidNotifDistance = False
+
+for i in range(0, 360, 15):
+    setpointReached = False
+    sentValidNotifDistance = False
+    sendingValidNotifDistance = False
+    ble.send_command(CMD.PID_ROTATE_START, f"{i}|{10 * 1000000}")
+    start_time = time.time()
+    await wait_for_setpoint()
+    await asyncio.sleep(0.5)
+    if setpointReached:
+        await wait_for_valid_distance()
+    print(f"Total time {i} to {i+15}: {time.time() - start_time}")
+        </code></pre>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- PID Results -->
+<section class="section pt-5 pb-5">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">OK But We're Rotated Correctly Right?</h4>
+        <h2 class="mb-4">Angular PID Accuracy</h2>
+        <p>
+            To test the accuracy of the angular PID loop, I ran the rotation code above to turn it 360 degrees in 15 degree increments and then use the onboard IMU to measure the actual angle of the car. 
+            I found that the angular PID loop was able to rotate the car to the desired angle with a maximum error of about 0.4 degrees and an average error of 0.14 degrees. The plot of this test is shown below.
+            The colors of the points coordinate to the time it took for the car to rotate to the desired angle. The median time it took for the car to rotate to the desired angle was 1.8 seconds, but the maximum was 20 seconds.
+            This was due to the car getting stuck at 180 degrees since it would oscillate between 179 and -179 degrees without ever settling at a close enough angle to be considered "at the setpoint", and then timing out. 
+            However, that only happened once during the 5 scans of the map. In that case, we wouldn't take the data point from 180 degrees.
+        </p>
+        <img src="img/lab9/pidAccuracy.png" alt="pid Test" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
+        <p>
+            From this, we can assume that if we were in the center of a 4x4m room, the maximum error in the position of the car due to the angular PID loop would be about 0.05 mm (cos(0.4) * 2m).
+            However, this is a very small error and is negligible compared to the noise in the distance measurements from the ToF sensor, which has a standard deviation of about 20 mm.
+            Additionally, as the robot moves, it doesn't turn directly on axis. Below is a video of the robot turning 360 degrees in place to show that it relatively does turn on axis, 
+            but there is some small amount of translation that occurs during the rotation.
+            This would cause the map of the box to look jagged instead of perfectly rectangular.
+            Below is also a plot of the distance measurments of the robot turning around in the tiny box in the world map.
+        </p>
+        <video class="video-portrait" controls muted style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
+            <source src="img/lab9/onAxisTurn.mov" type="video/mp4">
+            <img src="img/lab9/onAxisTurn.png" alt="Rotation Test" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
+        </video>
+        <img class="image-portrait" src="img/lab9/robot in box.jpg" alt="Turning Distance Measurements" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
+        <img src="img/lab9/boxTurnMap.png" alt="Box Map" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- Preciseness of Scans -->
+<section class="section pt-5 pb-5 bg-secondary">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">We Can Rotate Correctly Multiple Times Right?</h4>
+        <h2 class="mb-4">Preciseness of Scans</h2>
+        <p>
+            Before mapping, we want to determine if our scans are precise enough between scans to create a coherent map. 
+            To test this, I ran the mapping code to do two full 360 degree scans of the environment, after picking up the robot and about 16 minutes apart, and then plotted the distance measurements from each scan on top of each other to see how well they aligned.
+            The plot of this test is shown below. The two scans are shown in different colors, and we can see that they align pretty well with each other.
+        </p>
+        <img src="img/lab9/precisenessDiffScans.png" alt="Preciseness of Scans" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- Plots of Sections -->
+<section class="section pt-5">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">omg we're finally mapping</h4>
+        <h2 class="mb-4">Sections of the Environment</h2>
+        <p>
+            We placed the robot at five different points of the environment and did a full 360 degree scan at each point to create a map of the environment. Below are the plots of the distance measurements from each scan and a picture of the world.
+        </p>
+        <img src="img/lab9/robotMapsSeparate.png" alt="Sections of the Environment" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- Combining Sections -->
+<section class="section pt-5 pb-5 bg-secondary">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">YAYYYY TRANSFORMATION MATRICESSS YIPPPEEEEE</h4>
+        <h2 class="mb-4">Combining Maps of Sections</h2>
+        <p>
+            Before we can combine the maps of the different sections, we need to determine the transformation matrices between the different scans.
+            We first need to define the coordinate system of the robot and the world. We define the robot's coordinate system as having the x-axis pointing forward, the y-axis pointing to the left, as this is what the IMU 
+            uses so it's easy as shown below.
+                <img src="img/lab9/imuAxis.png" alt="Robot Coordinate System" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
+            The world axes are defined by the coordinates that are already placed.
+                <img src="img/lab9/worldAxis.png" alt="World Coordinate System" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
+        </p>
+
+        <p>
+            From the robot's frame, the distance measurements look like this, where sensor A in on the side of the robot and sensor B in in front. The robot's sensors are always rotating with the robot
+            so it just looks like two straight lines of distance measurements. Each point on the plot is in the form:
+            <!-- B = [B_dist, 0] A = [0, -A_dist] but in mathjax or latex -->
+                \[
+                \begin{bmatrix}
+                B_{dist} \\
+                0
+                \end{bmatrix}
+                \quad
+                \begin{bmatrix}
+                0 \\
+                -A_{dist}
+                \end{bmatrix}
+                \]
+                <img class="image-portrait" src="img/lab9/robotFrameMeasurements.png" alt="Robot Frame Distances" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
+
+            Because the sensors are offset from the center of the robot, the distances need to be translated slightly to account for the decreased measured distance which is represented by these matrices. In this case, da was 0.109ft and db was 0.208ft.
+            \[
+T_A =
+\begin{bmatrix}
+1 & 0 & 0 \\
+0 & 1 & -d_A \\
+0 & 0 & 1
+\end{bmatrix}
+\quad
+T_B =
+\begin{bmatrix}
+1 & 0 & -d_B \\
+0 & 1 & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+\]
+            <img class="image-portrait" src="img/lab9/sensorOffsetRobotFrame.png" alt="Translated Measurements" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
+
+            We can then use a standard rotation matrix to rotate the points relative to the robot's rotation when it took the measurement.
+            \[
+            R(\theta) =
+            \begin{bmatrix}
+            \cos(\theta) & -\sin(\theta) \\
+            \sin(\theta) & \cos(\theta)
+            \end{bmatrix}
+            \]
+                <img class="image-portrait" src="img/lab9/rotatedRobotFrame.png" alt="Rotated Measurements" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
+            However, we want the rotation relative to the world axis coordinates since the robot's axis weren't aligned with them on bootup. This can be found by taking a known straight piece of the 
+            map, take the left side of that plot, and then finding the angle of it.
+                <img src="img/lab9/bestFitLine.png" alt="Finding Rotation Angle" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
+            We can then rotate the points by the angle of this line to get the points in the world frame (in the matrix this is just subtracting the angle from theta).
+                <img class="image-portrait" src="img/lab9/rotatedGlobalFrame.png" alt="Rotated World Frame" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
+             Finally, we can then translate the points to the correct location in the world frame by using the known location of the robot when it took the measurements.
+                <img class="image-portrait" src="img/lab9/GlobalFrame.png" alt="Translated World Frame" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
+
+            The code for the matrix math is shown below:
+        </p>
+        <pre data-lang="Python"><code>sensor_to_robot_transform_B = np.array([[1, 0, 0.208333],  # translate by sensor offset
+                                        [0, 1, 0],
+                                        [0, 0, 1]])
+
+sensor_to_robot_transform_A = np.array([[1, 0, 0],  # translate by sensor offset
+                                        [0, 1, -0.109375],
+                                        [0, 0, 1]])  
+
+def rotation_matrix(angle_yaw):
+    angle = -angle_yaw - angle_rad # adding angle of robot and global frame correction
+    return np.array([[np.cos(angle), -np.sin(angle), 0],
+                     [np.sin(angle), np.cos(angle), 0],
+                     [0, 0, 1]])
+
+def translation_matrix(offset):
+    return np.array([[1, 0, offset[0]],
+                     [0, 1, offset[1]],
+                     [0, 0, 1]])
+
+# combined transformation from sensor coordinates to world coordinates
+def sensor_to_world_transform(sensor, angle_yaw, offset):
+    if sensor == 'A':
+        sensor_to_robot = sensor_to_robot_transform_A
+    elif sensor == 'B':
+        sensor_to_robot = sensor_to_robot_transform_B
+
+    robot_rotation = rotation_matrix(angle_yaw)
+    robot_translation = translation_matrix(offset)
+
+    # combined transformation
+    return robot_translation @ robot_rotation @ sensor_to_robot
+</code></pre>
+
+<p>
+    Doing this process with all the scans yields this map:
+    <img src="img/lab9/mapOfWorld.png" alt="Combined Map" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
+</p>
+
+
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- <section class="section pt-5 pb-5 bg-secondary">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">Speedrunning Labs 5-7</h4>
+        <h2 class="mb-4">Retesting Kalman Filter and PID Loops</h2>
+        <p>
+            During the course of this lab, my car (previously named Puyo) has been unfortunately relocated to a landfill.
+            Thus, I had to use a previous year's car (henceforth named Puyo Puyo) for this lab. Becuase of this,
+            I had to redo the PID tunings and retest the Kalman filter implementation on the new car.
+            I tuned the angle PID loop with the final parameters of \(K_p = 2.5\), \(K_i = 0\), and \(K_d = 0.2\), which resulted in a 
+            very stable loop that was able to keep the car at a set angle with a maximum error of 0.1 degrees on the smooth surface of Tang Hall's floor.
+            For the distance PID loop, I tuned it with the final parameters of \(K_p = 0.065\), \(K_i = 0.001\), and \(K_d = 0.04\), which resulted in a 
+            loop that was able to keep the car at a set distance with a maximum error of about 10 mm, which is pretty good considering the noise in the ToF sensor measurements.
+            I also retested the Kalman filter implementation on the new car, and it was able to accurately predict the position of the car without any modifications. 
+            Below is a plot of the Kalman filter predictions compared to the raw measurements to show that it is working correctly.
+        </p>
+        <img src="img/lab8/kalmanFilterPuyoPuyo.png" alt="Kalman Filter Test" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
+    </div>
+    </div>
+  </div>
+</section> -->
+
+
+
+<section class="section pt-4 pb-1">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <!-- <h4 class="text-color-hover-light mb-2">Giving Credit</h4> -->
+        <!-- <h2 class="mb-4">Citations</h2> -->
+
+        <div class="mt-5 p-4" style="border-left: 4px solid #47ffc5; background: #f7f7f7;">
+          <p class="mb-0" style="font-style: italic;">I used <a href=https://correial.github.io/LuccaFastRobots/Fast%20Robots%20Stuff/lab-7/> Lucca Correial's website </a>as a reference for the report. I also was offered Ananya Jajodia's and Tina Cheng's car
+            as a replacement for my car after it was thrown out. Thanks!
+		  </p>
+        </div>
+	</div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer start -->
+<!-- WEBSITE LAYOUT ADAPTED FROM HEISEN KONG -->
+
+
+	<div class="container">
+		<div class="row ">
+			<div class="col-lg-6">
+				<p class="mb-0">Copyrights © 2019. Designed & Developed by <a href="themefisher.com">Themefisher</a></p>
+			</div>
+			<div class="col-lg-6">
+				<div class="widget footer-widget text-lg-right mt-5 mt-lg-0">
+					<ul class="list-inline mb-0">
+						<li class="list-inline-item"><a href="https://github.com/heisen-kong" target="_blank"><i class="ti-github mr-3"></i></a></li>
+						<li class="list-inline-item"><a href="https://www.linkedin.com/in/heisen-kong/" target="_blank"><i class="ti-linkedin mr-3"></i></a></li>
+						<li class="list-inline-item"><a href="https://www.instagram.com/heisens.creations/" target="_blank"><i class="ti-instagram mr-3"></i></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- Footer End -->
+
+</html>]
