@@ -357,7 +357,9 @@ def sensor_to_world_transform(sensor, angle_yaw, offset):
 
 <p>
     Doing this process with all the scans yields this map:
-    <img src="img/lab9/mapOfWorld.png" alt="Combined Map" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
+        <img src="img/lab9/mapOfWorld.png" alt="Combined Map" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
+    We can then estimate walls onto this plot to create a map of the world. There is a missing wall shown by the dotted line since the robot's positions of scans couldn't reach that wall to take measurements of it.
+        <img src="img/lab9/EstimateWalls.png" alt="Wall Estimation" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
 </p>
 
 
@@ -399,8 +401,7 @@ def sensor_to_world_transform(sensor, angle_yaw, offset):
         <!-- <h2 class="mb-4">Citations</h2> -->
 
         <div class="mt-5 p-4" style="border-left: 4px solid #47ffc5; background: #f7f7f7;">
-          <p class="mb-0" style="font-style: italic;">I used <a href=https://correial.github.io/LuccaFastRobots/Fast%20Robots%20Stuff/lab-7/> Lucca Correial's website </a>as a reference for the report. I also was offered Ananya Jajodia's and Tina Cheng's car
-            as a replacement for my car after it was thrown out. Thanks!
+          <p class="mb-0" style="font-style: italic;">I used <a href=https://correial.github.io/LuccaFastRobots/Fast%20Robots%20Stuff/lab-7/> Lucca Correial's website </a>as a reference for the report. I also worked with Ananya Jajodia on the math and used Gemini to create the best fit code.
 		  </p>
         </div>
 	</div>
