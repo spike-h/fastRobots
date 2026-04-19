@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+
+<!--
+THEME MODIFIED FROM THEMEFISHER HTML TEMPLATE
+ // WEBSITE: https://themefisher.com
+-->
+
+<html lang="zxx">
+
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no"
+		/>
+		<meta name="author" content="Spike" />
+		<!-- <link rel="icon" href="icon.gif" type="image/gif" /> -->
+		<link rel="icon" href="img/me_circle.png" />
+		<title>Fast Robots Lab 10</title>
+		<meta name="keywords" content="lab10, fastRobots, arduino, artemis nano," />
+
+  <!-- ** Plugins Needed for the Project ** -->
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <!-- Main Stylesheet -->
+   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css"> -->
+	<link rel="stylesheet" href="css/atelier-seaside-light.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+	<script>hljs.highlightAll();</script>
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/page.css" rel="stylesheet">
+
+</head>
+
+<body>
+  
+<!-- Header Start --> 
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark tab-navigation" style="z-index: 1020">
+    <div class="container-xxl">
+<ul class="nav nav-tabs w-100" style="border-bottom: none">
+    <li class="nav-item flex-fill text-center">
+        <a href="index.html" class="nav-link tab-link">Home</a>
+    </li>
+
+    <li class="nav-item flex-fill text-center mx-1">
+        <a href="#" class="nav-link tab-link active">Fast Robots</a>
+    </li>
+    
+    <li class="nav-item flex-fill text-center">
+        <a href="lab1.html" class="nav-link tab-link" style="font-size: 0.9em;">Lab 1</a>
+    </li>
+    <li class="nav-item flex-fill text-center">
+        <a href="lab2.html" class="nav-link tab-link" style="font-size: 0.9em;">Lab 2</a>
+    </li>
+    <li class="nav-item flex-fill text-center">
+        <a href="lab3.html" class="nav-link tab-link" style="font-size: 0.9em;">Lab 3</a>
+    </li>
+	<li class="nav-item flex-fill text-center">
+        <a href="lab4.html" class="nav-link tab-link" style="font-size: 0.9em;">Lab 4</a>
+    </li>
+	<li class="nav-item flex-fill text-center">
+		<a href="lab5.html" class="nav-link tab-link" style="font-size: 0.9em;">Lab 5</a>
+	</li>
+	<li class="nav-item flex-fill text-center">
+		<a href="lab6.html" class="nav-link tab-link" style="font-size: 0.9em;">Lab 6</a>
+	</li>
+	<li class="nav-item flex-fill text-center">
+		<a href="lab7.html" class="nav-link tab-link" style="font-size: 0.9em;">Lab 7</a>
+	</li>
+		<li class="nav-item flex-fill text-center">
+		<a href="lab8.html" class="nav-link tab-link" style="font-size: 0.9em;">Lab 8</a>
+	</li>	
+	<li class="nav-item flex-fill text-center">
+		<a href="lab9.html" class="nav-link tab-link" style="font-size: 0.9em;">Lab 9</a>
+	</li>
+	<li class="nav-item flex-fill text-center">
+		<a href="lab10.html" class="nav-link tab-link active" style="border-bottom: 2px solid #47daff; font-size: 0.9em;">Lab 10</a>
+	</li>
+	<li class="nav-item flex-fill text-center">
+		<a href="lab11.html" class="nav-link tab-link" style="font-size: 0.9em;">Lab 11</a>
+	</li>
+	<li class="nav-item flex-fill text-center">
+		<a href="lab12.html" class="nav-link tab-link" style="font-size: 0.9em;">Lab 12</a>
+	</li>
+</ul>
+    </div>
+</nav>
+
+
+
+<!-- Header Close -->  
+
+<!-- Hero Section -->
+<section class="section pt-5 pb-0">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="mb-4">
+		  <h2 class="mb-5">Fast Robots: Lab 10</h2>
+		  <img src="img/lab10/lab10cover.gif" alt="Fast Robots Lab 10" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-bottom: 20px;">
+          <p><span class="text-color-hover-light">Bayes Filter</span> • <span class="text-color-hover-light">Localization</span> • <span class="text-color-hover-light">Jupyter Notebooks</span>
+          </p>
+		</div>
+	</div>
+      <div class="col-lg-8">
+        <div class="mb-4">
+          <h3 class="text-color mb-4">Localization (in simulation)</h3>
+          <p class="lead">This lab is about using a known map and sensor data to estimate the robot's position using Bayes Filter. Here, we perform the localization in a simulated environment to confirm 
+                          that our implementation of Bayes Filter is correct before we use it for the real robot in Lab 11. We use a Jupyter Notebook to visualize the localization process and the results.
+          </p> 
+          <!-- <p class="mt-3">The purpose of Lab 1 is to setup and become familiar with the Arduino IDE and 
+			the Artemis board. This lab involves programming your board, using the board 
+			LED, reading/writing serial messages over USB, and using the onboard temperature sensor and Pulse 
+			Density Microphone.</p> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Hero Video -->
+<!-- <section class="section pt-0 pb-5">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<video controls autoplay muted loop style="width: 100%; height: auto; display: block; border-radius: 8px;" poster="images/portfolio/HRC/hrc2_cover_wide.png">
+					<source src="images/portfolio/HRC/HRC_Codesign.mp4" type="video/mp4">
+					<img src="images/portfolio/HRC/hrc2_cover_wide.png" alt="Human-Robot Co-design" style="width: 100%; height: auto; display: block; border-radius: 8px;">
+				</video>
+			</div>
+		</div>
+	</div>
+</section> -->
+
+<!-- <video controls autoplay muted class="video-portrait" poster="img/lab1/tempCover.png" preload="none">
+	<source src="img/lab1/temp.mov" type="video/mp4">
+	<img src="img/lab1/tempCover.png" style="width: 100%; height: auto; display: block; border-radius: 8px;">
+</video> -->
+
+<!-- <img class="image-portrait" src="img/lab4/tapeMeasurer.webp" alt="Straight Line Test" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;"> -->
+
+<!-- Simulated World Setup -->
+<section class="section pt-5 pb-5">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">Quantizing Our World</h4>
+        <h2 class="mb-4">Simulated World Setup</h2>
+        <p>
+          We want to perform grid localization using Bayes Filter, which means we need to discretize our world into a grid.
+          How we've chosen to do this, is to transform a world of [-1.6764, 1.9812] meters in x, [-1.3716, 1.3716] meters in y, 
+          and [-180, 180) degrees in theta into a grid of 20 x 20 x 18 cells, where each cell represents a 0.3048m x 0.3048m x 20 degree section of the world.
+          A visualization of this grid is shown below.
+          </p>
+          <img src="img/lab10/3d_grid.jpg" alt="Grid Visualization" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- Bayes Filter Explaination -->
+<section class="section pt-5 pb-5 bg-secondary">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">How the Heck Does This Math Tell Us Where We Are?</h4>
+        <h2 class="mb-4">Bayes Filter Explaination</h2>
+          <p>
+            At a very high an abstract level, Bayes Filter is a way to update a probability distribution using new information. It consists of two steps,
+            a prediction step where we update the distribution based on an assumed model of our system and some control input, and an update step where we 
+            update the distribution based on new information. In the context of localization, our distribution is a 3D grid of probabilities of where the 
+            robot is in the world, our control input is the programmed movement of the robot, and our new information is the sensor measurements from the robot,
+            specifically the range measurements. A single step of the Bayes Filter algorithm is shown below:
+
+            $$\begin{aligned}
+\text{Given:} \quad & bel(x_{t-1}), u_t, z_t \\
+\text{For each state } x_t: \quad & \\
+\text{1. Prediction Step:} \quad & \overline{bel}(x_t) = \sum_{x_{t-1}} p(x_t | u_t, x_{t-1}) bel(x_{t-1}) \ \\
+\text{2. Update Step:} \quad & bel(x_t) = \eta p(z_t | x_t) \overline{bel}(x_t)
+\end{aligned}$$
+
+             Where \(bel(x_t)\) is the belief distribution of where the robot is at time t, \(\overline{bel}(x_t)\) is the predicted belief distribution after the prediction step, \(p(x_t | u_t, x_{t-1})\) is the probability of being at state \(x_t\) given control input \(u_t\), i.e. <strong>the motion model,</strong> and previous state \(x_{t-1}\), \(p(z_t | x_t)\) is the probability of getting sensor measurement \(z_t\) given being at state \(x_t\), i.e. <strong>the sensor model,</strong> and \(\eta\) is a normalization constant to ensure that the probabilities sum to 1.
+              In other words:
+            </p>
+<ol>
+  <li><strong>Initial Belief:</strong> We begin with an initial probability of how likely we are in each grid cell (\(x_t\)).</li>
+  <li><strong>Motion:</strong> The robot performs a movement or control action.</li>
+  <li><strong>Prediction:</strong> We iterate over every grid cell and calculate the probability of moving from every possible previous cell to land into \(x_t\).</li>
+  <li><strong>Measurement:</strong> We take a sensor measurement and multiply the new probability of being in \(x_t\) with the probability of getting that sensor measurement if we were actually in \(x_t\).</li>
+  <li><strong>Normalization:</strong> We normalize the probabilities so they sum to 1, giving us our updated belief of where we are.</li>
+  <li><strong>Iteration:</strong> We repeat this process for every grid cell to continuously update our belief of where we are in the world.</li>
+</ol>
+
+<p>
+  This algorithm allows us to iteratively update our belief of where the robot is in the world as it moves and takes new sensor measurements, which is the essence of localization.
+  For the whole filter, we would iterate through all time steps.
+</p>
+<p>
+  This process needs us to have an initial belief of where we are, a motion model to predict how our movements change our position, and a sensor model to predict how likely we are to get certain sensor measurements given our position.
+  In our case, the initial belief is a uniform distribution across all grid cells since we have no prior knowledge of where we are.
+</p>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- Odometry and Motion Model -->
+<section class="section pt-5 pb-5"> 
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">Where Da Robot At? (probably)</h4>
+        <h2 class="mb-4">Odometry and Motion Model</h2>
+          <p>
+              We will use an odometry based motion model. We model our control input as the desired change in position and orientation of the robot, 
+              specified by \({\delta}_{trans}\), \(\delta_{rot1}\), \(\delta_{rot2}\) which represent the change in translation, the change in rotation before translation, and the change in rotation after translation respectively.
+              <img src="img/lab10/odometry.png" alt="Odometry Motion Model" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
+              To input this form of odometry into our motion model, we need to convert our poses into the form of \({\delta}_{trans}\), \(\delta_{rot1}\), \(\delta_{rot2}\). This is done using the code below where pose is in the form of [x, y, theta].
+          </p>
+          <pre data-lang="Python"><code>def compute_control(cur_pose, prev_pose):
+    cur_pose = np.array(cur_pose)
+    prev_pose = np.array(prev_pose)
+    
+    delta_trans = np.linalg.norm(cur_pose[:2] - prev_pose[:2])
+    horizontal_angle = np.arctan2(cur_pose[1] - prev_pose[1], cur_pose[0] - prev_pose[0]) * 180 / np.pi
+    delta_rot_1 =  horizontal_angle - prev_pose[2]
+    delta_rot_1 = mapper.normalize_angle(delta_rot_1)
+    delta_rot_2 = cur_pose[2] - horizontal_angle
+    delta_rot_2 = mapper.normalize_angle(delta_rot_2)
+
+    return delta_rot_1, delta_trans, delta_rot_2</code></pre>
+            <p>
+              We can use a simple Gaussian motion model where we model our control input as a Gaussian distribution with mean at the control input and some variance to account for noise in our motion.
+              We can then calculate the probability of conducting the given movement by sampling the calculated odometry from this distribution. We assume that the motion in each direction is independent.
+              Multiplying the probabilities gives the probability of landing where at the new pose given the control input and previous pose (\(p(x_t | u_t, x_{t-1})\)).
+              The code for this is shown below.
+            </p>
+            <pre data-lang="Python"><code>def odom_motion_model(cur_pose, prev_pose, u):
+    theory_odom = compute_control(cur_pose, prev_pose)
+    theory_rot1, theory_trans, theory_rot2 = theory_odom
+    u_rot1, u_trans, u_rot2 = u
+
+    prob_rot1 = loc.gaussian(theory_rot1, u_rot1, loc.odom_rot_sigma)
+    prob_trans = loc.gaussian(theory_trans, u_trans, loc.odom_trans_sigma)
+    prob_rot2 = loc.gaussian(theory_rot2, u_rot2, loc.odom_rot_sigma)
+
+    return prob_rot1 * prob_trans * prob_rot2</code></pre>
+
+        </div>
+    </div>
+  </div>
+</section>
+
+<!-- Prediction step -->
+<section class="section pt-5 bg-secondary pb-5">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">We Should Be Here</h4>
+        <h2 class="mb-4">Prediction Step</h2>
+        <p>
+          Now we can use the previous belief, the control input, and the motion model to calculate the predicted belief of where we are after taking a movement. 
+          This is done by iterating over every grid cell and calculating the probability of moving from every possible previous cell to land into the current cell using the motion model, and then summing these probabilities together to get the predicted belief for that cell.
+          <!-- prediction step in mathjax -->
+          \[\overline{bel}(x_t) = \sum_{x_{t-1}} p(x_t | u_t, x_{t-1}) bel(x_{t-1})\]
+          The code for this is shown below. We skip over indicies that have a belief close to 0 to save computation time since they won't contribute much to the sum.
+        </p>
+        <pre data-lang="Python"><code>def prediction_step(cur_odom, prev_odom):
+    theory_odom = compute_control(cur_odom, prev_odom)
+
+    for i in range(mapper.MAX_CELLS_X):
+        for j in range(mapper.MAX_CELLS_Y):
+            for k in range(mapper.MAX_CELLS_A):
+
+                loc.bel_bar[i, j, k] = 0
+                curr_pose = mapper.from_map(i, j, k)
+                prev_indices = np.argwhere(loc.bel > 1e-6) 
+                
+                for i_prev, j_prev, k_prev in prev_indices:
+                    p_prev = loc.bel[i_prev, j_prev, k_prev]
+                    pose_prev = mapper.from_map(i_prev, j_prev, k_prev)
+                    p_motion = odom_motion_model(curr_pose, pose_prev, theory_odom)
+                    loc.bel_bar[i, j, k] += p_motion * p_prev</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Sensor Model -->
+<section class="section pt-5 pb-5">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">We Should Be Seeing This</h4>
+        <h2 class="mb-4">Sensor Model</h2>
+        <p>
+          We can calculate the probability of getting a certain sensor measurement given being at a certain cell in the grid using a sensor model. 
+          We will use a simple Gaussian sensor model where we use the expected sensor measurement for being at that cell (pre-calculated using ray casting), 
+          and then sample the distribution for the probability of getting the actual sensor measurement.
+          Our robot has one range sensor that gives us the distance to the nearest obstacle in front of the robot, so we will use this as our sensor measurement.
+          Since, we turn 360 degrees before updating our belief and take measurements at different orientations, the function below returns a list of probablities for each of the measurements.
+        </p>
+        <pre data-lang="Python"><code>def sensor_model(obs, curr_pose):
+    z_i_truth = mapper.get_views(curr_pose[0], curr_pose[1], curr_pose[2])
+    prob_array = np.zeros(len(obs))
+    for i in range(len(obs)):
+        prob_array[i] = loc.gaussian(z_i_truth[i], obs[i], loc.sensor_sigma)
+
+    return prob_array</code></pre>
+
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- Update Step -->
+<section class="section pt-5 pb-5">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">Yeah, We're Here (probably)</h4>
+        <h2 class="mb-4">Update Step</h2>
+        <p>
+          Now we can use the predicted belief from the prediction step and the sensor model to calculate the updated belief of where we are after taking a movement and getting a sensor measurement. 
+          This is done by iterating over every grid cell and multiplying the predicted belief for that cell with the probability of getting the actual sensor measurement if we were actually in that cell using the sensor model, and then normalizing the probabilities so they sum to 1.
+          We calculate the probability of getting the actual sensor measurement by mutplying the probabilities of getting each individual measurement since we assume that the measurements are independent.
+          <!-- update step in mathjax -->
+          \[bel(x_t) = \eta p(z_t | x_t) \overline{bel}(x_t)\]
+          The code for this is shown below.
+        </p>
+        <pre data-lang="Python"><code>def update_step():
+    for i in range(mapper.MAX_CELLS_X):
+        for j in range(mapper.MAX_CELLS_Y):
+            for k in range(mapper.MAX_CELLS_A):
+                curr_pose = (i, j, k)
+                obs = loc.obs_range_data
+                sensor_prob = sensor_model(obs, curr_pose)
+                sensor_prob_product = np.prod(sensor_prob)
+                loc.bel[i, j, k] = sensor_prob_product * loc.bel_bar[i, j, k]
+
+    loc.bel = loc.bel / np.sum(loc.bel)</code></pre>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- Simulation Results -->
+<section class="section pt-5 pb-5">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">Putting it all together</h4>
+        <h2 class="mb-4">Bayes Filter Implementation</h2>
+        <p>
+          The video below shows the implementation of the Bayes Filter algorithm in a simulated environment. 
+          The blue dots represent the estimated position of the robot based on the Bayes filter, 
+          the red dot represents the estimated position of the robot based on the odometry,
+          the green dot represents the true position of the robot, 
+          and the shaded area represents the belief distribution itself. 
+          As we can see, as the robot moves and takes new sensor measurements, the belief distribution updates and converges towards the true position of the robot, demonstrating that our implementation of Bayes Filter is working correctly.
+          The robot gets a bit lost in the more open area in the bottom of the map since there are less features to use for localization, but it is still able to recover and localize itself once it gets back into a more feature rich area on the right.
+          We can also see that the odometry based estimation drifts significantly over time and whenever my computer lags, while the Bayes filter estimation remains accurate, demonstrating the importance of using sensor measurements to correct for odometry drift in localization.
+        </p>
+        <video controls muted loop style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
+          <source src="img/lab10/Code_lNXvxmQnk6.mp4" type="video/mp4">
+        </video>
+    </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- <section class="section pt-5 pb-5 bg-secondary">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <h4 class="text-color-hover-light mb-2">Speedrunning Labs 5-7</h4>
+        <h2 class="mb-4">Retesting Kalman Filter and PID Loops</h2>
+        <p>
+            During the course of this lab, my car (previously named Puyo) has been unfortunately relocated to a landfill.
+            Thus, I had to use a previous year's car (henceforth named Puyo Puyo) for this lab. Becuase of this,
+            I had to redo the PID tunings and retest the Kalman filter implementation on the new car.
+            I tuned the angle PID loop with the final parameters of \(K_p = 2.5\), \(K_i = 0\), and \(K_d = 0.2\), which resulted in a 
+            very stable loop that was able to keep the car at a set angle with a maximum error of 0.1 degrees on the smooth surface of Tang Hall's floor.
+            For the distance PID loop, I tuned it with the final parameters of \(K_p = 0.065\), \(K_i = 0.001\), and \(K_d = 0.04\), which resulted in a 
+            loop that was able to keep the car at a set distance with a maximum error of about 10 mm, which is pretty good considering the noise in the ToF sensor measurements.
+            I also retested the Kalman filter implementation on the new car, and it was able to accurately predict the position of the car without any modifications. 
+            Below is a plot of the Kalman filter predictions compared to the raw measurements to show that it is working correctly.
+        </p>
+        <img src="img/lab8/kalmanFilterPuyoPuyo.png" alt="Kalman Filter Test" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
+    </div>
+    </div>
+  </div>
+</section> -->
+
+
+
+<section class="section pt-4 pb-1">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-8 offset-lg-2">
+        <!-- <h4 class="text-color-hover-light mb-2">Giving Credit</h4> -->
+        <!-- <h2 class="mb-4">Citations</h2> -->
+
+        <div class="mt-5 p-4" style="border-left: 4px solid #47ffc5; background: #f7f7f7;">
+          <p class="mb-0" style="font-style: italic;">I used <a href=https://correial.github.io/LuccaFastRobots/Fast%20Robots%20Stuff/lab-7/> Lucca Correial's website </a>as a reference for the report. I also worked with Ananya Jajodia on the math and used Gemini to create the best fit code.
+		  </p>
+        </div>
+	</div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer start -->
+<!-- WEBSITE LAYOUT ADAPTED FROM HEISEN KONG -->
+
+
+	<div class="container">
+		<div class="row ">
+			<div class="col-lg-6">
+				<p class="mb-0">Copyrights © 2019. Designed & Developed by <a href="themefisher.com">Themefisher</a></p>
+			</div>
+			<div class="col-lg-6">
+				<div class="widget footer-widget text-lg-right mt-5 mt-lg-0">
+					<ul class="list-inline mb-0">
+						<li class="list-inline-item"><a href="https://github.com/heisen-kong" target="_blank"><i class="ti-github mr-3"></i></a></li>
+						<li class="list-inline-item"><a href="https://www.linkedin.com/in/heisen-kong/" target="_blank"><i class="ti-linkedin mr-3"></i></a></li>
+						<li class="list-inline-item"><a href="https://www.instagram.com/heisens.creations/" target="_blank"><i class="ti-instagram mr-3"></i></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- Footer End -->
+
+</html>]
