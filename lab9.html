@@ -205,7 +205,7 @@ for i in range(0, 360, 15):
             Additionally, as the robot moves, it doesn't turn directly on axis. Below is a video of the robot turning 360 degrees in place to show that it relatively does turn on axis, 
             but there is some small amount of translation that occurs during the rotation.
             This would cause the map of the box to look jagged instead of perfectly rectangular.
-            Below is also a plot of the distance measurments of the robot turning around in the tiny box in the world map.
+            Below is also a plot of the distance measurements of the robot turning around in the tiny box in the world map.
         </p>
         <video class="video-portrait" controls muted style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
             <source src="img/lab9/onAxisTurn.mov" type="video/mp4">
@@ -224,7 +224,7 @@ for i in range(0, 360, 15):
     <div class="row mb-5">
       <div class="col-lg-8 offset-lg-2">
         <h4 class="text-color-hover-light mb-2">We Can Rotate Correctly Multiple Times Right?</h4>
-        <h2 class="mb-4">Preciseness of Scans</h2>
+        <h2 class="mb-4">Precision of Scans</h2>
         <p>
             Before mapping, we want to determine if our scans are precise enough between scans to create a coherent map. 
             To test this, I ran the mapping code to do two full 360 degree scans of the environment, after picking up the robot and about 16 minutes apart, and then plotted the distance measurements from each scan on top of each other to see how well they aligned.
@@ -270,7 +270,7 @@ for i in range(0, 360, 15):
         </p>
 
         <p>
-            From the robot's frame, the distance measurements look like this, where sensor A in on the side of the robot and sensor B in in front. The robot's sensors are always rotating with the robot
+            From the robot's frame, the distance measurements look like this, where sensor A is on the side of the robot and sensor B in in front. The robot's sensors are always rotating with the robot
             so it just looks like two straight lines of distance measurements. Each point on the plot is in the form:
             <!-- B = [B_dist, 0] A = [0, -A_dist] but in mathjax or latex -->
                 \[
@@ -313,7 +313,7 @@ T_B =
             \end{bmatrix}
             \]
                 <img class="image-portrait" src="img/lab9/rotatedRobotFrame.png" alt="Rotated Measurements" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
-            However, we want the rotation relative to the world axis coordinates since the robot's axis weren't aligned with them on bootup. This can be found by taking a known straight piece of the 
+            However, we want the rotation relative to the world axis coordinates since the robot's axes weren't aligned with them on bootup. This can be found by taking a known straight piece of the 
             map, take the left side of that plot, and then finding the angle of it.
                 <img src="img/lab9/bestFitLine.png" alt="Finding Rotation Angle" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
             We can then rotate the points by the angle of this line to get the points in the world frame (in the matrix this is just subtracting the angle from theta).
