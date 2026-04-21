@@ -165,7 +165,7 @@ THEME MODIFIED FROM THEMEFISHER HTML TEMPLATE
     <div class="row mb-5">
       <div class="col-lg-8 offset-lg-2">
         <h4 class="text-color-hover-light mb-2">How the Heck Does This Math Tell Us Where We Are?</h4>
-        <h2 class="mb-4">Bayes Filter Explaination</h2>
+        <h2 class="mb-4">Bayes Filter Explanation</h2>
           <p>
             At a very high an abstract level, Bayes Filter is a way to update a probability distribution using new information. It consists of two steps,
             a prediction step where we update the distribution based on an assumed model of our system and some control input, and an update step where we 
@@ -264,7 +264,7 @@ THEME MODIFIED FROM THEMEFISHER HTML TEMPLATE
           This is done by iterating over every grid cell and calculating the probability of moving from every possible previous cell to land into the current cell using the motion model, and then summing these probabilities together to get the predicted belief for that cell.
           <!-- prediction step in mathjax -->
           \[\overline{bel}(x_t) = \sum_{x_{t-1}} p(x_t | u_t, x_{t-1}) bel(x_{t-1})\]
-          The code for this is shown below. We skip over indicies that have a belief close to 0 to save computation time since they won't contribute much to the sum.
+          The code for this is shown below. We skip over indcies that have a belief close to 0 to save computation time since they won't contribute much to the sum.
         </p>
         <pre data-lang="Python"><code>def prediction_step(cur_odom, prev_odom):
     theory_odom = compute_control(cur_odom, prev_odom)
@@ -299,7 +299,7 @@ THEME MODIFIED FROM THEMEFISHER HTML TEMPLATE
           We will use a simple Gaussian sensor model where we use the expected sensor measurement for being at that cell (pre-calculated using ray casting), 
           and then sample the distribution for the probability of getting the actual sensor measurement.
           Our robot has one range sensor that gives us the distance to the nearest obstacle in front of the robot, so we will use this as our sensor measurement.
-          Since, we turn 360 degrees before updating our belief and take measurements at different orientations, the function below returns a list of probablities for each of the measurements.
+          Since, we turn 360 degrees before updating our belief and take measurements at different orientations, the function below returns a list of probabilities for each of the measurements.
         </p>
         <pre data-lang="Python"><code>def sensor_model(obs, curr_pose):
     z_i_truth = mapper.get_views(curr_pose[0], curr_pose[1], curr_pose[2])
@@ -324,7 +324,7 @@ THEME MODIFIED FROM THEMEFISHER HTML TEMPLATE
         <p>
           Now we can use the predicted belief from the prediction step and the sensor model to calculate the updated belief of where we are after taking a movement and getting a sensor measurement. 
           This is done by iterating over every grid cell and multiplying the predicted belief for that cell with the probability of getting the actual sensor measurement if we were actually in that cell using the sensor model, and then normalizing the probabilities so they sum to 1.
-          We calculate the probability of getting the actual sensor measurement by mutplying the probabilities of getting each individual measurement since we assume that the measurements are independent.
+          We calculate the probability of getting the actual sensor measurement by mutiplying the probabilities of getting each individual measurement since we assume that the measurements are independent.
           <!-- update step in mathjax -->
           \[bel(x_t) = \eta p(z_t | x_t) \overline{bel}(x_t)\]
           The code for this is shown below.
