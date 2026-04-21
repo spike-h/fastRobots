@@ -210,7 +210,7 @@ THEME MODIFIED FROM THEMEFISHER HTML TEMPLATE
 
         <p>
             The equation of the fitted curve is: $$v(t) = 2168.301(1 - e^{-t/0.413})$$
-            Therefore, the steady sate velocity is 2168.301 mm/s, and \(t_{0.9}\) is empiracally found to be 0.131 seconds, and we can calculate \(m\) and \(d\) as follows:
+            Therefore, the steady state velocity is 2168.301 mm/s, and \(t_{0.9}\) is empirically found to be 0.131 seconds, and we can calculate \(m\) and \(d\) as follows:
             \[m = \frac{-dt_{0.9}}{\ln(1 - 0.9)} = 0.262 * 10^{-5} \text{ kg}\]
             \[d = \frac{u}{\dot{x}} = 4.61 * 10^{-4} \text{ kg/s}\]
             So the matrices are:
@@ -369,7 +369,7 @@ return x_updated, P_updated</code></pre>
 
 <p>
     We drove it into a wall using the PID loop, but using the Kalman Filter to predict the position instead of linearly extrapolating the position, and the results were decent. 
-    The Kalman filter was able to accurately predict the position of the robot, except for the start where the measurements were very noisy, and the velocity estimates were similarly very innacurate.
+    The Kalman filter was able to accurately predict the position of the robot, except for the start where the measurements were very noisy, and the velocity estimates were similarly very inaccurate.
     The plots are shown below:
 </p>
 <img src="img/lab7/kalmanFilterTang.png" alt="Kalman Filter Real Data" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
