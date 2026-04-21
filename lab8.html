@@ -170,10 +170,10 @@ THEME MODIFIED FROM THEMEFISHER HTML TEMPLATE
         <h4 class="text-color-hover-light mb-2">Puyo's Last Hurrah</h4>
         <h2 class="mb-4">Flip Attempt</h2>
         <p>
-            I attempted to do a flip, which consists of driving fast, breaking, flipping over, and driving backwards, with Puyo, and was fortunate that it was able to get one semi-successful trial. The car was able to move towards the wall and flip, but it drove at an angle outwards.
+            I attempted to do a flip, which consists of driving fast, braking, flipping over, and driving backwards, with Puyo, and was fortunate that it was able to get one semi-successful trial. The car was able to move towards the wall and flip, but it drove at an angle outwards.
             This led me to add a PID loop for the angle of the car to try to keep it straight during the flip, which helped, but I was unable to get a perfectly straight flip before Spring Break, and before Puyo's retirement to a garbage dump. 
             During most of the trials, the car was unable to do a flip, which could be due to the car not going fast enough since I was only running it at 200 PWM towards the wall, or because the battery was dying since the number of successful flips decreased as I did more trials.
-            Below is a video of the semi-successful flip as well was my code for the flip attempt. I used linearly extrapolated distance measurements since I had not yet implemented the Kalman filter, and I wanted faster measurements compared to the slower raw ToF readings.
+            Below is a video of the semi-successful flip as well as my code for the flip attempt. I used linearly extrapolated distance measurements since I had not yet implemented the Kalman filter, and I wanted faster measurements compared to the slower raw ToF readings.
             I later gave up on the flip attempt since I didn't have a sticky mat to do the flip on to give the bot more traction.
         </p>
 <pre data-lang="Arduino"><code>
