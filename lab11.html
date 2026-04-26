@@ -226,10 +226,11 @@ loc.update_step()</code></pre>
             We used the PID loop from lab 6 to control the robot's angle but changed the parameters to be more aggressive to get measurements faster and stay on axis when rotating, and removed the
             integration term since we can achieve almost no steady state error with just proportional gain.
             We changed the parameters to be \(K_p = 8\), \(K_i = 0\), and \(K_d = 0.0\), which resulted in a very stable loop that was able to keep the 
-            car at a set angle with an average error of 0.05 degrees on the smooth surface of Tang Hall's floor, which is good enough for our purposes.
+            car at a set angle with an average error of 0.05 degrees and a max error of about 0.25 degrees on the smooth surface of Tang Hall's floor, which is good enough for our purposes since at the maximum range
+            of our sensor (4m), an error of 0.25 degrees would result in a distance error of <0.04 mm which is negligible for our purposes.
             Below is a plot of the error in angles while performing the 360 rotation.
           </p>
-          <img src="img/lab11/angePrecision.png" alt="Angle Error Plot" style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
+          <img src="img/lab11/angePrecision.png" alt="Angle Error Plot" style="width: 75%; height: auto; display: block; border-radius: 8px; margin-top: 20px; margin-left: auto; margin-right: auto;">
         </div>
     </div>
   </div>
