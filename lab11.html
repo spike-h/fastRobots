@@ -171,7 +171,8 @@ THEME MODIFIED FROM THEMEFISHER HTML TEMPLATE
           <p>
             Here, we will just be performing the update step of the Bayes Filter. 
             We placed the robot at set points in the map, and had it spin at 20 degree 
-            increments to match the orientation discretization of our grid.
+            increments to match the orientation discretization of our grid. At each angle, it took a distance measurement
+            using the front facing distance sensor, which we can then use to perform the update step of the Bayes Filter.
             Similar to Lab 9, we will be using the same notification system to trigger the 
             turning and measurement taking with the code shown below. For more information on the notification system, see Lab 9's report.
           </p>
@@ -281,7 +282,7 @@ loc.update_step()</code></pre>
         <p>
           And here is a video of the robot localizing itself in real time for the second plot. 
         </p>
-        <video class="video-portrait" controls muted loop style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
+        <video controls muted loop style="width: 100%; height: auto; display: block; border-radius: 8px; margin-top: 20px;">
           <source src="img/lab11/localzationRotate.mov" type="video/mp4">
         </video>
     </div>
